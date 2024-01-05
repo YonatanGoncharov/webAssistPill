@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="container register">
+        <h2>User Registration</h2>
+        <form>
+            <label for="name">First Name:</label>
+            <input type="text" id="txtfnameReg" name="name" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="txtlNameReg" name="lastName" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="txtEmailReg" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="txtPasswordReg" name="password" required>
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="attendant" name="attendant">
+                Are you an attendant?
+            </label>
+            <div id="errorMessage"></div>
+            <button type="button" value="Register" onclick="ValidateFormRegister()">Register</button>
+        </form>
+    </div>
+</body>
+</html>

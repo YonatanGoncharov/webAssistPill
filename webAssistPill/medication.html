@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="container">
+        <h1>Medication</h1>
+        <div class="medication-list">
+            <!-- Medication 1 -->
+            <div class="medication" value="1">
+                <div class="medication-info">
+                    Medication Name: Medication 1<br>
+                    How to Take: Take with water after meals<br>
+                    Quantity: 2
+                </div>
+                <button class="remove-button" onclick="removeMedication(1)">Remove</button>
+                <button class="form-button" onclick="showEditMedicationForm(1)">Edit</button>
+            </div>
+
+            <!-- Medication 2 -->
+            <div class="medication" value="2">
+                <div class="medication-info">
+                    Medication Name: Medication 2<br>
+                    How to Take: Take one tablet daily<br>
+                    Quantity: 1
+                </div>
+                <button class="remove-button" onclick="removeMedication(2)">Remove</button>
+                <button class="form-button" onclick="showEditMedicationForm(2)">Edit</button>
+            </div>
+
+            <!-- Add more medications here as needed -->
+        </div>
+        <button class="form-button" onclick="showAddMedicationForm()">Add Medication</button>
+        <div class="edit-medication-form">
+            <h2>Edit Medication</h2>
+            <div class="form-input">
+                <input type="hidden" id="medication-id-edit" value="">
+            </div>
+            <div class="form-input">
+                <label for="medication-name-edit">Medication Name:</label>
+                <input type="text" id="medication-name-edit" placeholder="Enter medication name">
+            </div>
+            <div class="form-input">
+                <label for="medication-how-to-take-edit">How to Take:</label>
+                <input type="text" id="medication-how-to-take-edit" placeholder="Enter how to take">
+            </div>
+            <div class="form-input">
+                <label for="medication-quantity-edit">Quantity:</label>
+                <input type="number" id="medication-quantity-edit" placeholder="Enter medication quantity">
+            </div>
+            <button class="form-button" onclick="editMedication()">Save Changes</button>
+        </div>
+        <div class="add-medication-form">
+            <h2>Add New Medication</h2>
+            <div class="form-input">
+                <label for="medication-name-add">Medication Name:</label>
+                <input type="text" id="medication-name-add" placeholder="Enter medication name">
+            </div>
+            <div class="form-input">
+                <label for="medication-how-to-take-add">How to Take:</label>
+                <input type="text" id="medication-how-to-take-add" placeholder="Enter how to take">
+            </div>
+            <div class="form-input">
+                <label for="medication-quantity-add">Quantity:</label>
+                <input type="number" id="medication-quantity-add" placeholder="Enter medication quantity">
+            </div>
+            <button class="form-button" onclick="addMedicationFormValidation()">Add Medication</button>
+        </div>
+    </div>
+    <!-- Popup div for displaying error messages -->
+    <div class="popup" id="error-popup">
+        <div class="popup-content">
+            <span class="close-popup" onclick="closeErrorPopup()">&times;</span>
+            <p id="error-message"></p>
+        </div>
+    </div>
+    <footer>
+        <button onclick="location.href ='attendant_home.html'" class="switch-button">Home</button>
+        <button onclick="location.href ='schedule.html'" class="switch-button">Schedule</button>
+        <button onclick="location.href ='messages.html'" class="switch-button">Messages</button>
+        <button onclick="location.href ='medication.html'" class="switch-button">Medication</button>
+        <button class="exit-button" onclick="exitAccount()">Exit</button>
+    </footer>
+</body>
+</html>

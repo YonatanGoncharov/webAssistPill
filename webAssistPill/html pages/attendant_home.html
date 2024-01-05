@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="container">
+        <h1>Patients List</h1>
+        <div class="dropdownContainer">
+            <label for="patient-dropdown">Select a Patient:</label> 
+                <select id="patient-dropdown">
+                    <option value="1">Patient Name 1</option>
+                    <option value="2">Patient Name 2</option>
+                    <!-- Add more patients here as needed -->
+                </select>
+                <button class="patient-button view-button" onclick="viewSelectedPatient()">View</button>       
+        </div>
+    </div>
+    <footer>
+        <button onclick="location.href ='attendant_home.html'" class="switch-button">Home</button>
+        <button onclick="location.href ='schedule.html'" class="switch-button">Schedule</button>
+        <button onclick="location.href ='messages.html'" class="switch-button">Messages</button>
+        <button onclick="location.href ='medication.html'" class="switch-button">Medication</button>
+        <button class="exit-button" onclick="exitAccount()">Exit</button>
+    </footer>
+
+</body>
+</html>

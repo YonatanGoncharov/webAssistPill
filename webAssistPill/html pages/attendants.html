@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendants</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="container">
+        <h1>Attendants</h1>
+        <div class="attendants-container">
+            <!-- Attendant 1 -->
+            <div class="attendant">
+                <div class="attendant-name">Attendant Name 1</div>
+                <button class="remove-button" onclick="removeAttendant(1)">Remove</button>
+            </div>
+
+            <!-- Attendant 2 -->
+            <div class="attendant">
+                <div class="attendant-name">Attendant Name 2</div>
+                <button class="remove-button" onclick="removeAttendant(2)">Remove</button>
+            </div>
+
+            <!-- Add New Attendant Button -->
+            <button class="add-attendant-button" onclick="addAttendant()">Add New Attendant</button>
+        </div>
+    </div>
+    <footer>
+        <button onclick="location.href ='user_home.html'" class="switch-button">Home</button>
+        <button onclick="location.href ='attendants.html'" class="switch-button">Attendants</button>
+    </footer>
+    <button class="exit-button" onclick="exitAccount()">Exit</button>
+</body>
+</html>

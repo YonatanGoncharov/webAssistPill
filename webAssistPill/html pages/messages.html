@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="container">
+        <h1>Messages</h1>
+        <div class="message-list">
+            <!-- Message 1 -->
+            <div class="message">
+                <div class="message-content">This is Message 1.</div>
+                <button class="remove-button" onclick="removeMessage(1)">Remove</button>
+            </div>
+
+            <!-- Message 2 -->
+            <div class="message">
+                <div class="message-content">This is Message 2.</div>
+                <button class="remove-button" onclick="removeMessage(2)">Remove</button>
+            </div>
+
+            <!-- Add more messages here as needed -->
+        </div>
+    </div>
+    <footer>
+        <button onclick="location.href ='attendant_home.html'" class="switch-button">Home</button>
+        <button onclick="location.href ='schedule.html'" class="switch-button">Schedule</button>
+        <button onclick="location.href ='messages.html'" class="switch-button">Messages</button>
+        <button onclick="location.href ='medication.html'" class="switch-button">Medication</button>
+        <button class="exit-button" onclick="exitAccount()">Exit</button>
+    </footer>
+</body>
+</html>

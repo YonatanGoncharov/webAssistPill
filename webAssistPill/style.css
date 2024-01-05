@@ -1,0 +1,578 @@
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, white, #68ccee); /* White Gradient to Light Blue */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh;
+    margin: 0;
+    position: relative; /* Add relative positioning to the body */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font with a fallback to sans-serif */
+    background-color: #f4f4f4; /* A light background color for the page */
+    margin: 0;
+    padding: 0;
+
+}
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    margin-top: 20px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+/* Style the modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+#medicationImg {
+    max-width: 50%;
+    max-height: 50vh;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Style the close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+footer {
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+.switch-button {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 20px 40px; /* Increased button padding (2 times bigger) */
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Add hover transition */
+    font-size: 20px;
+}
+.switch-button:hover {
+    background-color: #5fadc7; /* Light Blue - Hover */
+}
+h1 {
+    font-size: 36px; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Add some spacing below the heading */
+    color: #333; /* Darker text color */
+}
+
+/* Styling for Medication List */
+.medication-list {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+.medication {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.medication-info {
+    flex: 1;
+}
+
+/* Add Medication Button */
+.add-medication-button {
+    background-color: #5fadc7; /* Light Blue - New button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px; /* Adjusted button padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.add-medication-button:hover {
+    background-color: #4a94b9; /* Light Blue - Hover */
+}
+
+/* New Medication Form (Hidden by default) */
+.new-medication-form {
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+.form-input {
+    margin: 10px 0;
+}
+.form-button {
+    background-color: #5fadc7; /* Light Blue - New button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px; /* Adjusted button padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.form-button:hover {
+    background-color: #4a94b9; /* Light Blue - Hover */
+}
+
+.add-attendant-tab {
+    display: none;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-attendant-tab h2 {
+    margin-top: 0;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Import the Lobster font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.errorMessage {
+    color: red;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+}
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+.button {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #5fadc7; /* Light Blue - Hover */
+}
+.register{
+    max-width: 300px;
+}
+.login {
+    max-width: 300px;
+}
+/* Styling for Message List */
+.message-list {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+.message {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.message-content {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.message-status {
+    font-size: 12px;
+    color: #888;
+    margin: 15px;
+}
+
+
+/* Exit Button */
+.exit-button {
+    position: absolute;
+    top: 20px; /* Adjust the top position */
+    left: 20px; /* Adjust the left position */
+    background-color: #68bff1; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px; /* Adjust button size */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out;
+    font-size: 25px;
+    min-width: 120px;
+    box-shadow: 0px 0px 20px rgb(112, 231, 235);
+}
+.exit-button:hover {
+    background-color: #2aa4eb;
+    box-shadow: 0px 0px 20px rgb(0, 0, 0);
+}
+
+ /* Styling for Medication List */
+ .medication-list {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.medication-info {
+    flex: 1;
+}
+.remove-button {
+    background-color: #ff6b6b; /* Red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.remove-button:hover {
+    background-color: #ff4949; /* Red - Hover */
+}
+
+/* Edit Medication Form (Hidden by default) */
+.edit-medication-form {
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+
+/* Add Medication Form (Hidden by default) */
+.add-medication-form {
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+/* Styling for Patient List */
+.patient-list {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    margin-top: 20px;
+}
+.patient {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.patient-name {
+    font-weight: bold;
+}
+ /* Styling for View Button */
+ .view-button {
+    background-color: #5fadc7; /* Light Blue - New button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px; /* Adjusted button padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 25px;
+}
+.view-button:hover {
+    background-color: #4a94b9; /* Light Blue - Hover */
+}
+ /* Styling for Attendants Page */
+ .attendants-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    margin-top: 20px;
+}
+.attendant {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.attendant-name {
+    font-weight: bold;
+}
+.add-attendant-button {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 20px;
+}
+.add-attendant-button:hover {
+    background-color: #5fadc7; /* Light Blue - Hover */
+}
+.schedule-block-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.schedule-block {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: calc(25% - 10px);
+    text-align: center;
+    margin: 10px 10px;
+    display: flex;
+    flex-direction: column; /* Display medications in a column */
+    align-items: center; /* Center medications horizontally */
+}
+.evening-block {
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: calc(100% - 10px); /* Full width for evening block */
+    text-align: center;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column; /* Display medications in a column */
+    align-items: center; /* Center medications horizontally */
+}
+h3 {
+    font-size: 24px; /* Bigger text size for schedule headings */
+}
+.medication {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+.med-name {
+    font-weight: bold;
+}
+.med-time {
+    font-style: italic;
+}
+.top-button {
+    position: fixed;
+    top: 20px; /* Adjust the top position */
+    left: 20px; /* Adjust the left position */
+    background-color: #68ccee; /* Light Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px; /* Adjust button size */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.top-button:hover {
+    background-color: #5fadc7; /* Light Blue - Hover */
+}
+#emailRequest {
+    width: 30%;
+}
+#emailLabel {
+    font-size: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.password-reset {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+select {
+    font-size: 20px; /* Adjust the font size as needed */
+    padding: 10px; /* Adjust the padding as needed */
+}
+.dropdownContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.login-register-buttons-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.LoginContainer {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 250px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+/* Style for the selected patient label */
+.selected-patient {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    text-align: right;
+}
+
+.selected-patient-label {
+    text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+    font-weight: bold;
+    font-size: 50px;
+    -webkit-text-stroke: 1.5px #0e6f88;
+    color: #10d8ff;
+}
+/* Add this CSS to your existing style.css file or create a new one */
+
+/* Style for the selected patient card container */
+.selected-patient-card {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    padding: 10px;
+    background-color: azure;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Box shadow for a subtle outline */
+    border-radius: 8px; /* Rounded corners */
+    border: 3px solid cyan;
+    box-shadow: 0px 0px 20px rgb(112, 231, 235);
+}
+
+
+.invalid-field {
+    border:1px solid red;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.popup-content {
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.close-popup {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
