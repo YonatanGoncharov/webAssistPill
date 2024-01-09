@@ -48,8 +48,8 @@ namespace webAssistPill
         }
 
         public string GetRepeatedDays(object medicationName, object medicationTakingTime) 
-        { 
-
+        {
+            return string.Empty;
         }
     }
 }

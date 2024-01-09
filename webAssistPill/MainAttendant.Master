@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MainAttendant.Master.cs" Inherits="webAssistPill.masterpage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <script src="script.js"></script>
+    <form id="form1" runat="server">
+        <div class="container">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolderMain" runat="server">
+                
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+     <footer>
+     <button onclick="location.href ='attendant_home.aspx'" class="switch-button">Home</button>
+     <button onclick="location.href ='schedule.aspx'" class="switch-button">Schedule</button>
+     <button onclick="location.href ='messages.aspx'" class="switch-button">Messages</button>
+     <button onclick="location.href ='medication.aspx'" class="switch-button">Medication</button>
+     <button class="exit-button" onclick="exitAccount()">Exit</button>
+</footer>
+</body>
+</html>

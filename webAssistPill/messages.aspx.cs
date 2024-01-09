@@ -3,19 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace webAssistPill
 {
-    public partial class messages : System.Web.UI.Page
+    public partial class messages1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-               Session["user"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
+                Session["user"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
                 if (Session["user"] is AttendantBL attendant)
                 {
                     MessagesBL messagesBL = new MessagesBL(attendant.attendantIdGS);
@@ -23,14 +22,20 @@ namespace webAssistPill
                     messagesRepeater.DataSource = messages;
                     messagesRepeater.DataBind();
                     //making the new message seen
-                    foreach(MessageBL message in messages)
+                    foreach (MessageBL message in messages)
                     {
                         if (!message.messageSeenGS)
                         {
                             message.MessageHasBeenSeen();
                         }
-                    } 
+                    }
                 }
+                if (Session["SelectedUser"] is UserBL selectedPatient)
+                {
+                    // Update the label with the selected patient's name
+                    selectedPatientLabel.Text = $"Viewing: {selectedPatient.userNamegs}";
+                }
+
             }
         }
         protected void RemoveMessage_Command(object sender, CommandEventArgs e)
@@ -51,7 +56,7 @@ namespace webAssistPill
                 List<MessageBL> messages = messagesBL.Messages;
                 foreach (MessageBL m in messages)
                 {
-                    if (m.messageIdGS.ToString().Equals(messageId.ToString())) 
+                    if (m.messageIdGS.ToString().Equals(messageId.ToString()))
                     {
                         m.RemoveMessage();
                     }

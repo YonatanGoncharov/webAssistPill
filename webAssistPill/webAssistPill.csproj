@@ -68,8 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="attendants.aspx" />
-    <Content Include="html pages\attendants.html" />
     <Content Include="attendant_home.aspx" />
+    <Content Include="html pages\attendants.html" />
     <Content Include="html pages\attendant_home.html" />
     <Content Include="html pages\messages.html" />
     <Content Include="images\AssistPill.png" />
@@ -123,12 +123,19 @@
     <Compile Include="main.aspx.designer.cs">
       <DependentUpon>main.aspx</DependentUpon>
     </Compile>
-    <Compile Include="masterpage.Master.cs">
-      <DependentUpon>masterpage.Master</DependentUpon>
+    <Compile Include="MainAttendant.Master.cs">
+      <DependentUpon>MainAttendant.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="masterpage.Master.designer.cs">
-      <DependentUpon>masterpage.Master</DependentUpon>
+    <Compile Include="MainAttendant.Master.designer.cs">
+      <DependentUpon>MainAttendant.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MainUser.Master.cs">
+      <DependentUpon>MainUser.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MainUser.Master.designer.cs">
+      <DependentUpon>MainUser.Master</DependentUpon>
     </Compile>
     <Compile Include="messages.aspx.cs">
       <DependentUpon>messages.aspx</DependentUpon>
@@ -175,7 +182,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="masterpage.Master" />
+    <Content Include="MainAttendant.Master" />
+    <Content Include="MainUser.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

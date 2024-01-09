@@ -11,7 +11,7 @@ namespace webAssistPill
 {
 
 
-    public partial class masterpage
+    public partial class MainUser
     {
 
         /// <summary>

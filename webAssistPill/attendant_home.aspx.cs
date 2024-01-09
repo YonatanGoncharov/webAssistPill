@@ -6,15 +6,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-
 namespace webAssistPill
 {
-    public partial class attendant_home : System.Web.UI.Page
+    public partial class attendant_home1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
+
                 // Check if the user is an attendant
                 if (Session["User"] is AttendantBL attendant)
                 {
@@ -29,8 +30,6 @@ namespace webAssistPill
                 }
             }
         }
-      
-
         protected void viewButton_Click(object sender, EventArgs e)
         {
             // Check if the user is an attendant
@@ -44,6 +43,8 @@ namespace webAssistPill
 
                 // Update the label with the selected patient's name
                 selectedPatientLabel.Text = $"Viewing: {selectedPatient.userNamegs}";
+
+                Session["SelectedUser"] = selectedPatient;
             }
         }
     }

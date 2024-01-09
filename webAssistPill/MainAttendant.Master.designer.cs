@@ -11,34 +11,34 @@ namespace webAssistPill
 {
 
 
-    public partial class attendant_home1
+    public partial class masterpage
     {
 
         /// <summary>
-        /// patientDropdown control.
+        /// head control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList patientDropdown;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
 
         /// <summary>
-        /// viewButton control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button viewButton;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// selectedPatientLabel control.
+        /// ContentPlaceHolderMain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label selectedPatientLabel;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolderMain;
     }
 }
