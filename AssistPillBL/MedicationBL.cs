@@ -16,6 +16,7 @@ namespace AssistPillBL
         private string medicationInstructions;//the medication instructions
         private int medicationAmount;//the medication amount
         private string medicationPhotoPath;//the medication photo path
+        private int userId; // the id of the user
 
         public int Medicationid { get => medicationid; set => medicationid = value; }//medication id get/set
         public string MedicationName { get => medicationName; set => medicationName = value; }//medication name get/set
@@ -23,18 +24,22 @@ namespace AssistPillBL
         public string MedicationInstructions { get => medicationInstructions; set => medicationInstructions = value; }//medication instructions get/set
         public int MedicationAmount { get => medicationAmount; set => medicationAmount = value; }//medicaion amount get/set
         public string MedicationPhotoPath { get => medicationPhotoPath; set => medicationPhotoPath = value; }//medication photo path get/set
+        public int UserId { get => userId; set => userId = value; }//userId get/set
 
         //builder for new medication
-        public MedicationBL(int medicationid, string medicationName, string medicationDescription, string medicationInstructions, int medicationAmount, string medicationPhotoPath)
+        public MedicationBL(string medicationName, string medicationDescription, string medicationInstructions, int medicationAmount, string medicationPhotoPath , int userId)
         {
-            this.medicationid = medicationid;
             this.medicationName = medicationName;
             this.medicationDescription = medicationDescription;
             this.medicationInstructions = medicationInstructions;
             this.medicationAmount = medicationAmount;
             this.medicationPhotoPath = medicationPhotoPath;
+            this.userId = userId;
 
-            MedicationClass.InsertMedication(medicationName, medicationDescription, medicationInstructions, medicationAmount, medicationPhotoPath);
+            MedicationClass.InsertMedication(medicationName, medicationDescription, medicationInstructions, medicationAmount, medicationPhotoPath , userId);
+            DataTable dt = MedicationClass.GetMedicationIdByUserIdAndMedName(userId, medicationName);
+            DataRow dr = dt.Rows[0];
+            this.medicationid = (int)dr[0];
         }
         //builder for existing medication
         public MedicationBL(int medicationid)
@@ -47,8 +52,27 @@ namespace AssistPillBL
             this.medicationInstructions = dr[3].ToString();
             this.medicationAmount = (int)dr[4];
             this.medicationPhotoPath = dr[5].ToString();
+            this.userId = (int)dr[6];
         }
 
+        //getting all the user medications
+        public static List<MedicationBL> GetUserMedications(int userId)
+        {
+            DataTable dt = MedicationClass.GetMedicationByUserId(userId);
+            List<MedicationBL> medications = new List<MedicationBL>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                MedicationBL medication = new MedicationBL((int)dr[0]);
+                medications.Add(medication);
+            }
+            return medications;
+        }
+        //removing specifiec medication
+        public void MedicationRemove()
+        {
+            MedicationClass.RemoveMedication(this.medicationid);
+        }
 
     }
 }

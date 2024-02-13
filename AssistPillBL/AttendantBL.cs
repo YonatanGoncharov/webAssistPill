@@ -39,6 +39,9 @@ namespace AssistPillBL
             this.attendantEmail = attendantEmail;
             this.attendantPassword = attendantPassword;
             AttendantClass.InsertAttendant(attendantName, attendantLastName, attendantEmail, attendantPassword);
+            DataTable dt = AttendantClass.GetSpecifiecAttendant(attendantEmail);
+            DataRow dr = dt.Rows[0];
+            this.attendantId = (int)dr[0]; 
         }
         /// <summary>
         /// builder for login

@@ -59,6 +59,9 @@ namespace AssistPillBL
             this.userEmail = userEmail;
             this.userPassword = userPassword;
             UserClass.InsertUser(userName, userLastName, userEmail, userPassword);
+            DataTable dt = UserClass.GetSpecifiecUser(userEmail);
+            DataRow dr = dt.Rows[0];
+            this.userId = (int)dr[0];
         }
         /// <summary>
         /// updating the password

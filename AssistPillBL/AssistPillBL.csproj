@@ -69,7 +69,6 @@
   <ItemGroup>
     <Compile Include="AttendantBL.cs" />
     <Compile Include="MedicationBL.cs" />
-    <Compile Include="MedicationsBL.cs" />
     <Compile Include="MessagesBL.cs" />
     <Compile Include="MessageBL.cs" />
     <Compile Include="Program.cs" />

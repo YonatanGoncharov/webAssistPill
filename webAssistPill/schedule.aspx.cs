@@ -60,18 +60,7 @@ namespace webAssistPill
         {
             if (Session["SelectedUser"] is UserBL user)
             {
-                List<ScheduleBL> schedules = user.GetSchedule();
-                List<MedicationBL> medications = new List<MedicationBL>();
-                List<int> medicationsIds = new List<int>();
-                foreach (ScheduleBL sch in schedules)
-                {
-                    int schId = sch.medicationIdGS;
-                    if (!medicationsIds.Contains(schId))
-                    {
-                        medicationsIds.Add(schId);
-                        medications.Add(new MedicationBL(schId));
-                    }
-                }
+                List<MedicationBL> medications = MedicationBL.GetUserMedications(user.userIdgs);
 
                 medicationDropdown.DataSource = medications;
                 medicationDropdown.DataTextField = "MedicationName";

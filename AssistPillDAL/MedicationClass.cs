@@ -10,7 +10,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static DataTable GetAllMedications()
         {
-            string sSql = $@"Select MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount) , (MedicationPhoto) , (IsRemoved) from MedicationTBL";
+            string sSql = $@"Select MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount) , (MedicationPhoto) , (IsRemoved) , (UserId)from MedicationTBL";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
@@ -21,7 +21,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static DataTable GetSpecifiecMedication(int medicationId)
         {
-            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) from MedicationTBL WHERE MedicationTBL.[MedicationId] = {medicationId} AND MedicationTBL.[IsRemoved] = {false}";
+            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) , (UserId) from MedicationTBL WHERE MedicationTBL.[MedicationId] = {medicationId} AND MedicationTBL.[IsRemoved] = {false}";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
@@ -33,7 +33,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static DataTable GetMedicationByName(string medicationName)
         {
-            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) from MedicationTBL WHERE MedicationTBL.[MedicationName] = {medicationName} AND MedicationTBL.[IsRemoved] = {false}";
+            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) , (UserId) from MedicationTBL WHERE MedicationTBL.[MedicationName] = {medicationName} AND MedicationTBL.[IsRemoved] = {false}";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
@@ -127,9 +127,9 @@ namespace FinalProjectDAL
         /// <param name="medicationInstructions"></param>
         /// <param name="medicationAmount"></param>
         /// <param name="medicationPhoto"></param>
-        public static void InsertMedication(string medicationName, string medicationDescription, string medicationInstructions, int medicationAmount, string medicationPhoto)
+        public static void InsertMedication(string medicationName, string medicationDescription, string medicationInstructions, int medicationAmount, string medicationPhoto, int userId)
         {
-            string gSql = $@"INSERT INTO MedicationTBL (medicationName, medicationDescription, medicationInstructions, medicationAmount, medicationPhoto) VALUES ('{medicationName}','{medicationDescription}','{medicationInstructions}',{medicationAmount} , '{medicationPhoto}')";
+            string gSql = $@"INSERT INTO MedicationTBL (medicationName, medicationDescription, medicationInstructions, medicationAmount, medicationPhoto , userId) VALUES ('{medicationName}','{medicationDescription}','{medicationInstructions}',{medicationAmount} , '{medicationPhoto}' , {userId})";
             DBHelper.ExecuteNonQuery(gSql);
         }
         /// <summary>
@@ -196,6 +196,28 @@ namespace FinalProjectDAL
             string sSql = $@"UPDATE MedicationTBL SET MedicationTBL.IsRemoved = {true} WHERE MedicationTBL.MedicationId = {medicationId}";
             DBHelper.ExecuteNonQuery(sSql);
         }
-
+        /// <summary>
+        /// getting medication from the database but with the user id
+        /// </summary>
+        /// <param name="medicationId"></param>
+        /// <returns></returns>
+        public static DataTable GetMedicationByUserId(int userId)
+        {
+            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) , (UserId) from MedicationTBL WHERE MedicationTBL.[UserId] = {userId} AND MedicationTBL.[IsRemoved] = {false}";
+            DataTable dt = DBHelper.GetDataTable(sSql);
+            return dt;
+        }
+        /// <summary>
+        /// getting medication id by user id and med name
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="medName"></param>
+        /// <returns></returns>
+        public static DataTable GetMedicationIdByUserIdAndMedName(int userId, string medName)
+        {
+            string sSql = $@"SELECT MedicationId from MedicationTBL WHERE MedicationTBL.[UserId] = {userId} AND MedicationTBL.[MedicationName] = '{medName}' AND MedicationTBL.[IsRemoved] = {false}";
+            DataTable dt = DBHelper.GetDataTable(sSql);
+            return dt;
+        }
     }
 }
