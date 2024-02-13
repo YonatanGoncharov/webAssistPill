@@ -16,6 +16,10 @@ body {
     padding: 0;
 
 }
+
+
+
+
 .container {
     background-color: white;
     border-radius: 10px;
@@ -73,6 +77,38 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
+
+.confirmation-panel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.confirmation-content {
+    text-align: center;
+}
+
+.confirmation-button {
+    margin: 0 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.confirmation-button:hover {
+    background-color: #0056b3;
+}
+
 footer {
     padding: 20px;
     text-align: center;
@@ -166,6 +202,20 @@ h1 {
 }
 .form-button:hover {
     background-color: #4a94b9; /* Light Blue - Hover */
+}
+
+.form-exit-button {
+    background-color: #ff3b3b; /* Light Blue - New button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px; /* Adjusted button padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.form-exit-button:hover {
+    background-color: #892626; /* Light Blue - Hover */
 }
 
 .add-attendant-tab {
@@ -309,6 +359,34 @@ input[type="checkbox"] {
 .remove-button:hover {
     background-color: #ff4949; /* Red - Hover */
 }
+.remove-button {
+    background-color: #ff6b6b; /* Red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+    .remove-button:hover {
+        background-color: #ff4949; /* Red - Hover */
+    }
+
+.edit-button {
+    background-color: #f27415; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.edit-button:hover {
+    background-color: #a06e13; /* Darker cyan blue on hover */
+}
+
 
 /* Edit Medication Form (Hidden by default) */
 .edit-medication-form {

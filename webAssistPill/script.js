@@ -13,12 +13,7 @@ function exitAccount() {
     window.location.href = "main.aspx";
 }
 
-// Function to remove a message
-function removeMessage(messageId) {
-    // Implement logic to remove the message here
-    alert("Removing Message " + messageId);
-    // You can remove the message element from the DOM or mark it as deleted as per your requirements.
-}
+
 function scrollToTop() {
     window.scrollTo({
         top: 0,

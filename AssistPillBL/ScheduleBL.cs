@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using FinalProjectDAL;
@@ -14,12 +15,15 @@ namespace AssistPillBL
         private int dayOfTheWeek;
         private string takingTime;
         private int userId;
+        private string medicationName;
 
         public int scheduleIdGS { get => scheduleId; set => scheduleId = value; }
         public int medicationIdGS { get => medicationId; set => medicationId = value; }
         public int dayOfTheWeekGS { get => dayOfTheWeek; set => dayOfTheWeek = value; }
         public string takingTimeGS { get => takingTime; set => takingTime = value; }
         public int userIdGS { get => userId; set => userId = value; }
+        public string medicationNameGS { get => medicationName; set => medicationName = value; }
+
         /// <summary>
         /// putting existing schedule information to varibles
         /// </summary>
@@ -35,6 +39,10 @@ namespace AssistPillBL
             this.dayOfTheWeek = dayOfTheWeek;
             this.takingTime = takingTime;
             this.userId = userId;
+
+            DataTable dt = MedicationClass.GetSpecifiecMedication(this.medicationId);
+            DataRow dr = dt.Rows[0];
+            this.medicationName = dr[1].ToString();
         }
         /// <summary>
         /// inserting new schedule
@@ -50,7 +58,16 @@ namespace AssistPillBL
             this.takingTime = takingTime;
             this.userId = userId;
             ScheduleClass.InsertSchedule(medicationId, dayOfTheWeek, takingTime, userId);
+            DataTable dt = MedicationClass.GetSpecifiecMedication(this.medicationId);
+            DataRow dr = dt.Rows[0];
+            this.medicationName = dr[1].ToString();
         }
-
+        /// <summary>
+        /// removing the schedule
+        /// </summary>
+        public void ScheduleRemove()
+        {
+            ScheduleClass.RemoveSchedule(this.scheduleId);
+        }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using AssistPillBL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using AssistPillBL;
 
 namespace webAssistPill
 {
-    public partial class attendants : System.Web.UI.Page
+    public partial class attendants1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,7 +24,7 @@ namespace webAssistPill
         {
             if (Session["User"] is UserBL user)
             {
-               
+
                 List<AttendantBL> attendants = user.GetAttendants();
 
                 // Bind DataTable to repeater

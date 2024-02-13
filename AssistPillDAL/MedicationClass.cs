@@ -25,6 +25,18 @@ namespace FinalProjectDAL
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
+
+        /// <summary>
+        /// getting medication from the database but with his name
+        /// </summary>
+        /// <param name="medicationId"></param>
+        /// <returns></returns>
+        public static DataTable GetMedicationByName(string medicationName)
+        {
+            string sSql = $@"SELECT MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount), (MedicationPhoto) from MedicationTBL WHERE MedicationTBL.[MedicationName] = {medicationName} AND MedicationTBL.[IsRemoved] = {false}";
+            DataTable dt = DBHelper.GetDataTable(sSql);
+            return dt;
+        }
         /// <summary>
         /// checking if the medication name exists already
         /// </summary>

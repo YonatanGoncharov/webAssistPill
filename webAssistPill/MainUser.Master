@@ -7,13 +7,21 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <script src="script.js"></script>
     <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <div class="container">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolderMain" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
+    <footer>
+    <button onclick="location.href ='user_home.aspx'" class="switch-button">Home</button>
+    <button onclick="location.href ='attendants.aspx'" class="switch-button">Attendants</button>
+    <button class="exit-button" onclick="exitAccount()">Exit</button>
+    </footer>
 </body>
 </html>

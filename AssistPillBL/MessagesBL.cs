@@ -26,11 +26,6 @@ namespace AssistPillBL
             {
                 DataRow dr = dt.Rows[i];
                 int messageId = (int)dr[0];
-                int senderId = (int)dr[1];
-                int recipientId = (int)dr[2];
-                string messageDate = dr[3].ToString();
-                string messageContent = dr[4].ToString();
-                bool messageSeen = (bool)dr[5];
                 this.messages.Add(new MessageBL(messageId));
             }
         }

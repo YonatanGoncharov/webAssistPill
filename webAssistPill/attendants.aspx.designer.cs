@@ -11,7 +11,7 @@ namespace webAssistPill
 {
 
 
-    public partial class attendants
+    public partial class attendants1
     {
 
         /// <summary>

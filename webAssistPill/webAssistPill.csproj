@@ -87,11 +87,12 @@
     <Content Include="register.aspx" />
     <Content Include="html pages\register.html" />
     <Content Include="schedule.aspx" />
+    <Content Include="scheduled.aspx" />
     <Content Include="schedule.html" />
     <Content Include="script.js" />
     <Content Include="style.css" />
-    <Content Include="user_home.aspx" />
     <Content Include="html pages\user_home.html" />
+    <Content Include="user_home.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,13 @@
     </Compile>
     <Compile Include="schedule.aspx.designer.cs">
       <DependentUpon>schedule.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="scheduled.aspx.cs">
+      <DependentUpon>scheduled.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="scheduled.aspx.designer.cs">
+      <DependentUpon>scheduled.aspx</DependentUpon>
     </Compile>
     <Compile Include="user_home.aspx.cs">
       <DependentUpon>user_home.aspx</DependentUpon>

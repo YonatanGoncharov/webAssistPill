@@ -48,5 +48,7 @@ namespace AssistPillBL
             this.medicationAmount = (int)dr[4];
             this.medicationPhotoPath = dr[5].ToString();
         }
+
+
     }
 }
