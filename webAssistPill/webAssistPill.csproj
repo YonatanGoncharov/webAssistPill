@@ -78,7 +78,8 @@
     <Content Include="html pages\login.html" />
     <Content Include="main.aspx" />
     <Content Include="html pages\main.html" />
-    <Content Include="medication.html" />
+    <Content Include="medication.aspx" />
+    <Content Include="medications.html" />
     <Content Include="messages.aspx" />
     <Content Include="password_reset.aspx" />
     <Content Include="html pages\password_reset.html" />
@@ -87,8 +88,7 @@
     <Content Include="register.aspx" />
     <Content Include="html pages\register.html" />
     <Content Include="schedule.aspx" />
-    <Content Include="scheduled.aspx" />
-    <Content Include="schedule.html" />
+    <Content Include="html pages\schedule.html" />
     <Content Include="script.js" />
     <Content Include="style.css" />
     <Content Include="html pages\user_home.html" />
@@ -138,6 +138,13 @@
     <Compile Include="MainUser.Master.designer.cs">
       <DependentUpon>MainUser.Master</DependentUpon>
     </Compile>
+    <Compile Include="medication.aspx.cs">
+      <DependentUpon>medication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="medication.aspx.designer.cs">
+      <DependentUpon>medication.aspx</DependentUpon>
+    </Compile>
     <Compile Include="messages.aspx.cs">
       <DependentUpon>messages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -173,13 +180,6 @@
     </Compile>
     <Compile Include="schedule.aspx.designer.cs">
       <DependentUpon>schedule.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="scheduled.aspx.cs">
-      <DependentUpon>scheduled.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="scheduled.aspx.designer.cs">
-      <DependentUpon>scheduled.aspx</DependentUpon>
     </Compile>
     <Compile Include="user_home.aspx.cs">
       <DependentUpon>user_home.aspx</DependentUpon>
