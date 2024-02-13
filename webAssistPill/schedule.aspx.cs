@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 
 namespace webAssistPill
@@ -48,7 +49,7 @@ namespace webAssistPill
             if (DateTime.TryParse(day.ToString(), out DateTime parsedDateTime))
             {
                 // Extract the time part
-                string timeString = parsedDateTime.ToString("HH:mm:ss");
+                string timeString = parsedDateTime.ToString("HH:mm");
                 return timeString;
             }
             return null;
@@ -102,7 +103,7 @@ namespace webAssistPill
                                 days += ", ";
                             }
 
-                            DateTime dayOfWeek = new DateTime(2022, 1, 1).AddDays(sch.dayOfTheWeekGS - 1);
+                            DateTime dayOfWeek = new DateTime(2022, 1, 1).AddDays(sch.dayOfTheWeekGS);
 
                             // Get the day name as a string in English
 
@@ -156,7 +157,6 @@ namespace webAssistPill
 
         }
 
-
         /// <summary>
         /// getting the schedule list of all of repeated schedules
         /// </summary>
@@ -165,20 +165,18 @@ namespace webAssistPill
         private List<ScheduleBL> GettingReapeatedSchedule(List<ScheduleBL> schedules)
         {
             List<(int, string, ScheduleBL)> medicationIdAndTime = new List<(int, string, ScheduleBL)>();
+
             foreach (ScheduleBL sch in schedules)
             {
                 var medicationPair = (sch.medicationIdGS, sch.takingTimeGS, sch);
 
-                if (!medicationIdAndTime.Contains(medicationPair))
+                if (!medicationIdAndTime.Any(t => t.Item1 == medicationPair.Item1 && t.Item2 == medicationPair.Item2))
                 {
                     medicationIdAndTime.Add(medicationPair);
                 }
             }
-            List<ScheduleBL> schedulesRepeated = new List<ScheduleBL>();
-            foreach ((int medicationId, string time, ScheduleBL ch) in medicationIdAndTime)
-            {
-                schedulesRepeated.Add(ch);
-            }
+
+            List<ScheduleBL> schedulesRepeated = medicationIdAndTime.Select(t => t.Item3).ToList();
 
             return schedulesRepeated;
         }
@@ -197,10 +195,12 @@ namespace webAssistPill
                 string[] medIdAndTakingtime = Convert.ToString(button.CommandArgument).Split('*');
                 int medId = int.Parse(medIdAndTakingtime[0]);
                 string medTakingtime = medIdAndTakingtime[1];
+                Session["EditScheduleMedId"] = medId;
+                Session["EditScheduleMedTakingTime"] = medTakingtime;
                 MedicationBL med = new MedicationBL(medId);
                 MedicationEditLabel.Text = med.MedicationName;
                 string repDays = GetRepeatedDays(medId, medTakingtime);
-                foreach (Control control in formInputDays.Controls)
+                foreach (Control control in formInputDaysEdit.Controls)
                 {
                     if (control is HtmlInputCheckBox checkbox)
                     {
@@ -230,18 +230,11 @@ namespace webAssistPill
 
         protected void AddButton_Click(object sender, EventArgs e)
         {
-            if (sender is Button button)
+            if (editMedicationForm.Style["display"] == "block")
             {
-                if (editMedicationForm.Style["display"] == "block")
-                {
-                    editMedicationForm.Style["display"] = "none"; // Hide the div
-                }
-                newMedicationForm.Style["display"] = "block"; // Show the div
-
-
-
+                editMedicationForm.Style["display"] = "none"; // Hide the div
             }
-
+            newMedicationForm.Style["display"] = "block"; // Show the div
         }
 
         protected void ExitButtonEditForm_Click(object sender, EventArgs e)
@@ -251,7 +244,221 @@ namespace webAssistPill
 
         protected void SaveChangeEditForm_Click(object sender, EventArgs e)
         {
+            object medId = Session["EditScheduleMedId"];
+            object medTakingTime = Session["EditScheduleMedTakingTime"];
+            string repDays = GetRepeatedDays(medId, medTakingTime);
 
+            if (Session["SelectedUser"] is UserBL user)
+            {
+                if (sundayEdit.Checked)
+                {
+                    if (!repDays.Contains("Sunday"))
+                        new ScheduleBL((int)medId, 1, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 1);
+                        new ScheduleBL((int)medId, 1, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Sunday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 1);
+                }
+                if (mondayEdit.Checked)
+                {
+                    if (!repDays.Contains("Monday"))
+                        new ScheduleBL((int)medId, 2, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 2);
+                        new ScheduleBL((int)medId, 2, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Monday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 2);
+                }
+                if (tuesdayEdit.Checked)
+                {
+                    if (!repDays.Contains("Tuesday"))
+                        new ScheduleBL((int)medId, 3, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 3);
+                        new ScheduleBL((int)medId, 3, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Tuesday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 3);
+                }
+                if (wednesdayEdit.Checked)
+                {
+                    if (!repDays.Contains("Wednesday"))
+                        new ScheduleBL((int)medId, 4, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 4);
+                        new ScheduleBL((int)medId, 4, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Wednesday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 4);
+                }
+                if (thursdayEdit.Checked)
+                {
+                    if (!repDays.Contains("Thursday"))
+                        new ScheduleBL((int)medId, 5, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 5);
+                        new ScheduleBL((int)medId, 5, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Thursday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 5);
+                }
+                if (fridayEdit.Checked)
+                {
+                    if (!repDays.Contains("Friday"))
+                        new ScheduleBL((int)medId, 6, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 6);
+                        new ScheduleBL((int)medId, 6, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Friday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 6);
+                }
+                if (saturdayEdit.Checked)
+                {
+                    if (!repDays.Contains("Saturday"))
+                        new ScheduleBL((int)medId, 7, medicationTimeEdit.Value, user.userIdgs);
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    {
+                        FindAndRemoveByDay(medId, medTakingTime, 7);
+                        new ScheduleBL((int)medId, 7, medicationTimeEdit.Value, user.userIdgs);
+                    }
+                }
+                else
+                {
+                    if (repDays.Contains("Saturday"))
+                        FindAndRemoveByDay(medId, medTakingTime, 7);
+                }
+                PopulateMedications();
+                editMedicationForm.Style["display"] = "none";
+            }
+
+
+        }
+        /// <summary>
+        /// finding specific schedule in specific day
+        /// </summary>
+        /// <param name="medId"></param>
+        /// <param name="medTakingTime"></param>
+        private void FindAndRemoveByDay(object medId, object medTakingTime, int day)
+        {
+            if (Session["SelectedUser"] is UserBL user)
+            {
+                foreach (ScheduleBL schedule in user.GetSchedule())
+                {
+                    if (schedule.takingTimeGS.Equals(medTakingTime) && schedule.dayOfTheWeekGS == day && schedule.medicationIdGS.Equals(medId))
+                    {
+                        schedule.ScheduleRemove();
+                        break;
+                    }
+                }
+            }
+        }
+
+        protected void FormAddMedButton_Click(object sender, EventArgs e)
+        {
+            if (Session["SelectedUser"] is UserBL user)
+            {
+                int medicationId = int.Parse(medicationDropdown.SelectedValue);
+                string timeToTake = medicationTime.Value;
+                List<int> daysToRepeat = new List<int>();
+
+                if (sunday.Checked)
+                    daysToRepeat.Add(1);
+                if (monday.Checked)
+                    daysToRepeat.Add(2);
+                if (tuesday.Checked)
+                    daysToRepeat.Add(3);
+                if (wednesday.Checked)
+                    daysToRepeat.Add(4);
+                if (thursday.Checked)
+                    daysToRepeat.Add(5);
+                if (friday.Checked)
+                    daysToRepeat.Add(6);
+                if (saturday.Checked)
+                    daysToRepeat.Add(7);
+
+
+                bool flag = false;
+                List<ScheduleBL> schedules = GettingReapeatedSchedule(user.GetSchedule());
+                foreach (ScheduleBL schedule in schedules)
+                {
+                    string time = TimetoString(schedule.takingTimeGS);
+                    if (time.Equals(timeToTake) && schedule.medicationIdGS.Equals(medicationId))
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (medicationDropdown.SelectedValue.Equals(null) || medicationTime.Value.Equals(null) || daysToRepeat.Count == 0)
+                {
+                    string errorMessage = "Please Fill All!";
+
+                    // Register the JavaScript function call
+                    string script = $"showError('{errorMessage}');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                }
+                else if (flag)
+                {
+                    string errorMessage = "There is already existing similar schedule!";
+
+                    // Register the JavaScript function call
+                    string script = $"showError('{errorMessage}');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                }
+                else
+                {
+                    foreach (int day in daysToRepeat)
+                    {
+
+                        new ScheduleBL(medicationId, day, timeToTake, user.userIdgs);
+
+                    }
+                    PopulateMedications();
+                }
+                newMedicationForm.Style["display"] = "none";
+                foreach (Control control in formInputDays.Controls)
+                {
+                    if (control is HtmlInputCheckBox checkbox)
+                    {
+                        checkbox.Checked = false;
+                    }
+                }
+                medicationTime.Value = null;
+            }
+
+        }
+
+        protected void FormExitButton_Click(object sender, EventArgs e)
+        {
+            newMedicationForm.Style["display"] = "none";
         }
     }
 }

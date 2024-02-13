@@ -22,7 +22,7 @@
                </ItemTemplate>
            </asp:Repeater>
        </div>
-        <asp:Button ID="AddButton" runat="server" Text="Add New Medication"  CssClass="add-medication-button" OnClick="AddButton_Click"/>
+        <asp:Button ID="AddButton" runat="server" Text="Add New Schedule"  CssClass="add-medication-button" OnClick="AddButton_Click"/>
      
    <div class="new-medication-form" runat="server" id="newMedicationForm">
        <h2>Add New Medication</h2>
@@ -32,20 +32,22 @@
        </div>
        <div class="form-input">
            <label for="medication-time">Time to Take:</label>
-           <input type="time" id="medication-time">
+           <input type="time" id="medicationTime" runat="server">
        </div>
        <div class="form-input">
            <label>Repeat on Days:</label><br>
-           <input type="checkbox" id="monday"> Monday
-           <input type="checkbox" id="tuesday"> Tuesday
-           <input type="checkbox" id="wednesday"> Wednesday
-           <input type="checkbox" id="thursday"> Thursday
-           <input type="checkbox" id="friday"> Friday
-           <input type="checkbox" id="saturday"> Saturday
-           <input type="checkbox" id="sunday"> Sunday
+           <div id="formInputDays" runat="server"> 
+                <input type="checkbox" runat="server" id="monday"> Monday
+                <input type="checkbox" runat="server" id="tuesday"> Tuesday
+                <input type="checkbox" runat="server" id="wednesday"> Wednesday
+                <input type="checkbox" runat="server" id="thursday"> Thursday
+                <input type="checkbox" runat="server" id="friday"> Friday
+                <input type="checkbox" runat="server" id="saturday"> Saturday
+                <input type="checkbox" runat="server" id="sunday"> Sunday
+           </div>
        </div>
-       <button class="form-button" onclick="addMedicationSchedule()">Add Medication</button>
-       <button class="form-exit-button" onclick="exitForm('.new-medication-form')">Exit</button>
+       <asp:Button ID="FormAddMedButton" CssClass="form-button" OnClick="FormAddMedButton_Click" runat="server" Text="Add Schedule" />
+       <asp:Button ID="FormExitButton" OnClick="FormExitButton_Click" CssClass="form-exit-button" runat="server" Text="Exit" />
    </div>
    <div class="edit-medication-form" runat="server" id="editMedicationForm"> 
        <h2>Edit Medication</h2>
@@ -58,7 +60,7 @@
        </div>
        <div class="form-input">
            <label>Repeat on Days:</label>
-           <div id="formInputDays" runat="server"> 
+           <div id="formInputDaysEdit" runat="server"> 
                <input type="checkbox" runat="server" id="mondayEdit"> Monday
                <input type="checkbox" runat="server" id="tuesdayEdit"> Tuesday
                <input type="checkbox" runat="server" id="wednesdayEdit"> Wednesday

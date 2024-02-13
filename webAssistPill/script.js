@@ -160,37 +160,8 @@ function addMedicationSchedule() {
 }
 
 
-//clearing the selected days
-function clearSelectedDays() {
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    
-    days.forEach(day => {
-        const checkbox = document.getElementById(day.toLowerCase());
-        if (checkbox.checked) {
-            checkbox.checked = false;
-        }
-    });
-}
-// Helper function to get selected days
-function getSelectedDays() {
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const selectedDays = [];
-    
-    days.forEach(day => {
-        const checkbox = document.getElementById(day.toLowerCase());
-        if (checkbox.checked) {
-            selectedDays.push(day);
-        }
-    });
 
-    return selectedDays;
-}
-function IsUserEmail(email){
-    
-}
-function IsAttendantEmail(email){
-    
-}
+
 
 // Function to show the edit medication form
 function showEditMedicationForm(medicationId) {
@@ -227,83 +198,10 @@ function showEditMedicationForm(medicationId) {
     form.style.display = "block";
 }
 
-// Function to show the edit medication form for the schedule
-function showEditMedicationScheduleForm(medicationId) {
-    const form = document.querySelector(".edit-medication-form");
-    const medicationInfo = document.querySelector(`.medication[value="${medicationId}"] .medication-info`);
-    const medicationNameEdit = document.getElementById("medication-dropdown-edit");
-    const medicationTimeEdit = document.getElementById("medication-time-edit");
-    const repeatDaysEdit = document.querySelectorAll(".edit-medication-form input[type='checkbox']");
 
-    // Set the medication ID in the hidden input field
-    document.getElementById("medication-id-edit").value = medicationId;
 
-    if (medicationInfo) {
-        // Extract medication details from the displayed information of the selected medication
-        const details = medicationInfo.innerText.split("\n");
-        const medicationName = details[0].split(":")[1].trim();
-        const medicationTime = details[1].split(":")[1].trim().split(" ")[0]; // Extract time only
-        const repeatDays = details[2].split(":")[1].trim().split(", "); // Extract repeat days as an array
 
-        // Populate the edit form with the current medication details
-        medicationNameEdit.value = medicationName;
-        medicationTimeEdit.value = medicationTime;
 
-        // Check the appropriate checkboxes for repeat days
-        repeatDaysEdit.forEach((checkbox) => {
-            if (repeatDays.includes(checkbox.id)) {
-                checkbox.checked = true;
-            } else {
-                checkbox.checked = false;
-            }
-        });
-    } else {
-        // If medicationInfo is null, it's a newly added medication, so clear the form fields
-        medicationNameEdit.value = "";
-        medicationTimeEdit.value = "";
-        repeatDaysEdit.forEach((checkbox) => {
-            checkbox.checked = false;
-        });
-    }
-
-    form.style.display = "block";
-}
-
-// Function to edit a medication for the schedule
-function editMedicationSchedule() {
-    const medicationId = document.getElementById("medication-id-edit").value;
-    var selectElement = document.querySelector('#medication-dropdown');
-    const medicationNameEdit = selectElement.options[selectElement.selectedIndex].innerText;
-    const medicationTimeEdit = document.getElementById("medication-time-edit").value;
-
-    // Determine the time of day
-    let timeOfDay;
-    const hour = parseInt(medicationTimeEdit.split(":")[0]);
-    if (hour >= 6 && hour < 12) {
-        timeOfDay = "Morning";
-    } else if (hour >= 12 && hour < 17) {
-        timeOfDay = "Afternoon";
-    } else if (hour >= 17 && hour < 20) {
-        timeOfDay = "Evening";
-    } else {
-        timeOfDay = "Noon";
-    }
-
-    // Find the medication in the list by its ID
-    const medicationElement = document.querySelector(`.medication[value="${medicationId}"]`);
-
-    if (medicationElement) {
-        // Update the medication details in the displayed information
-        const medicationInfo = medicationElement.querySelector(".medication-info");
-        const repeatDaysEdit = document.querySelectorAll(".edit-medication-form input[type='checkbox']:checked");
-        const repeatDaysArray = Array.from(repeatDaysEdit).map((checkbox) => capitalizeFirstLetter(checkbox.id)).join(", ");
-        medicationInfo.innerHTML = `Medication Name: ${medicationNameEdit}<br>Time to Take: ${medicationTimeEdit} (${timeOfDay})<br>Repeat Days: ${repeatDaysArray}`;
-    }
-
-    // Hide the edit form
-    const form = document.querySelector(".edit-medication-form");
-    form.style.display = "none";
-}
 
 // Function to capitalize the first letter of a string
 function capitalizeFirstLetter(string) {
@@ -330,52 +228,8 @@ function closeErrorPopup() {
     errorPopup.style.display = "none";
 }
 
-// Function to check if all fields in the new medication form are filled
-function isFormValid() {
-    var selectElement = document.querySelector('#medication-dropdown');
-    let medicationName = selectElement.options[selectElement.selectedIndex].innerText;
-    if (medicationName === "Select Medication"){
-        medicationName = "";
-    }
-    const medicationTime = document.getElementById("medication-time").value;
-    const monday = document.getElementById("monday").checked;
-    const tuesday = document.getElementById("tuesday").checked;
-    const wednesday = document.getElementById("wednesday").checked;
-    const thursday = document.getElementById("thursday").checked;
-    const friday = document.getElementById("friday").checked;
-    const saturday = document.getElementById("saturday").checked;
-    const sunday = document.getElementById("sunday").checked;
 
-    return (
-        medicationName.trim() !== "" &&
-        medicationTime !== "" &&
-        (monday || tuesday || wednesday || thursday || friday || saturday || sunday)
-    );
-}
-function populateMedicationDropdowns() {
-    // Get references to the dropdowns
-    var medicationDropdown = document.getElementById("medication-dropdown");
-    var medicationDropdownEdit = document.getElementById("medication-dropdown-edit");
 
-    // Clear existing options
-    medicationDropdown.innerHTML = "";
-    medicationDropdownEdit.innerHTML = "";
-
-    // Loop through medicationsData and add options to the dropdowns
-    for (var i = 0; i < medicationsData.length; i++) {
-        var medication = medicationsData[i];
-        var option = document.createElement("option");
-        option.value = medication.id;
-        option.textContent = medication.name;
-        medicationDropdown.appendChild(option);
-
-        // Create a separate option for the edit form dropdown
-        var optionEdit = document.createElement("option");
-        optionEdit.value = medication.id;
-        optionEdit.textContent = medication.name;
-        medicationDropdownEdit.appendChild(optionEdit);
-    }
-}
 
 // Call the function to populate the dropdowns when the page loads
 window.addEventListener("load", populateMedicationDropdowns);
