@@ -73,6 +73,51 @@ namespace AssistPillBL
         {
             MedicationClass.RemoveMedication(this.medicationid);
         }
+        /// <summary>
+        /// Update for name
+        /// </summary>
+        /// <param name="name"></param>
+        public void UpdateName(string name)
+        {
+            this.medicationName = name;
+            MedicationClass.UpdateMedicationName(this.medicationid, name);
+        }
+        /// <summary>
+        /// Update for instructions
+        /// </summary>
+        /// <param name="instructions"></param>
+        public void UpdateInstructions(string instructions)
+        {
+            this.medicationInstructions = instructions;
+            MedicationClass.UpdateMedicationInstructions(this.medicationid, instructions);
+        }
+        /// <summary>
+        /// Update for description
+        /// </summary>
+        /// <param name="description"></param>
+        public void UpdateDescription(string description)
+        {
+            this.medicationDescription = description;
+            MedicationClass.UpdateMedicationDescription(this.medicationid, description);
+        }
+        /// <summary>
+        /// Update for amount
+        /// </summary>
+        /// <param name="amount"></param>
+        public void UpdateAmount(int amount)
+        {
+            this.medicationAmount = amount;
+            MedicationClass.UpdateMedicationAmount(this.medicationid, amount);
+        }
+        /// <summary>
+        /// Update for photo path
+        /// </summary>
+        /// <param name="photopath"></param>
+        public void UpdatePhotoPath(string photopath)
+        {
+            this.medicationPhotoPath = photopath;
+            MedicationClass.UpdateMedicationPhoto(this.medicationid, photopath);
+        }
 
     }
 }

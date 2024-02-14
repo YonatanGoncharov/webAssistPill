@@ -294,6 +294,15 @@ function showMedicationDetails(name, imgPath, instructions, description) {
     modal.style.display = 'block';
 }
 
+function showEditedPicture(imgPath) {
+    var modalImg = document.getElementById('imagePreviewEdit');
+    var imagePath = '../images/medication_images/' + imgPath;
+    var defaultImagePath = '../images/medication_images/default_image.png';
+
+    // Set the image source and name in the modal
+    modalImg.src = doesImageExist(imagePath) ? imagePath : defaultImagePath;
+}
+
 function closeMedicationModal() {
     var modal = document.getElementById('medicationModal');
 
@@ -312,6 +321,21 @@ function doesImageExist(url) {
 
 function previewImage(input) {
     var preview = document.getElementById('imagePreview');
+    var file = input.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+    }
+}
+function previewImageEdit(input) {
+    var preview = document.getElementById('imagePreviewEdit');
     var file = input.files[0];
     var reader = new FileReader();
 

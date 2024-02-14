@@ -56,14 +56,11 @@ namespace webAssistPill
 
                 string path = med.MedicationPhotoPath;
                 // Construct the file path based on the ID
-                string imagePath = string.Format("~/images/medication_images/{0}", path);
+                ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "showEditedPicture('" + path + "');", true);
 
-                // Set the value of the file input element with the image path
-                medicationPictureEdit.Value = Server.MapPath(imagePath);
-
-                // Display the image preview
-                imagePreviewEdit.Src = ResolveUrl(imagePath);
+                
             }
+
         }
 
         protected void RemoveButton_Command(object sender, CommandEventArgs e)
@@ -73,7 +70,7 @@ namespace webAssistPill
 
         public void RemoveButton(object medId)
         {
-            MedicationBL medication = new MedicationBL((int)medId);
+            MedicationBL medication = new MedicationBL(Convert.ToInt32(medId));
             if (Session["SelectedUser"] is UserBL user)
             {
                 foreach (ScheduleBL schedule in user.GetSchedule())
@@ -84,7 +81,60 @@ namespace webAssistPill
                     }
                 }
             }
+            // Specify the file path of the image to be moved
+            string sourceFilePath = Path.Combine(Server.MapPath("~/images/medication_images/"), medication.MedicationPhotoPath);
+            // Specify the destination folder path
+            string destinationFolderPath = Server.MapPath("~/images/removed_medication_images/");
+            // Specify the new file name with "removed" prefix
+            string newFileName = "removed_" + medication.MedicationPhotoPath;
+            // Specify the destination file path
+            string destinationFilePath = Path.Combine(destinationFolderPath, newFileName);
+
+
+            try
+            {
+                // Check if the source file exists before attempting to move it
+                if (File.Exists(sourceFilePath))
+                {
+                    // Check if the destination folder exists, create it if it doesn't
+                    if (!Directory.Exists(destinationFolderPath))
+                    {
+                        Directory.CreateDirectory(destinationFolderPath);
+                    }
+
+                    // Check if the destination file already exists
+                    while (File.Exists(destinationFilePath))
+                    {
+                        // Append another "removed" prefix to the file name to make it unique
+                        newFileName = "removed_" + newFileName;
+                        destinationFilePath = Path.Combine(destinationFolderPath, newFileName);
+                    }
+
+                    // Move the file to the destination folder with the new unique file name
+                    File.Move(sourceFilePath, destinationFilePath);
+
+                    // Optionally, you can also update your data or database records accordingly
+                    // e.g., UpdateImagePathInDatabase("your_image_file_name.jpg", newFileName);
+                }
+                else
+                {
+                    // Handle case when the source file does not exist
+                    // e.g., display an error message
+                    Response.Write("The source file does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, such as file access errors
+                Response.Write("Error: " + ex.Message);
+            }
+
+
+
             medication.MedicationRemove();
+            NewMedicationForm.Style["display"] = "none";
+            EditMedicationForm.Style["display"] = "none";
+
             PopulateMedications();
         }
 
@@ -99,12 +149,81 @@ namespace webAssistPill
 
         protected void SaveEditButton_Click(object sender, EventArgs e)
         {
+            int medId = (int)Session["EditMedId"];
 
-        }
+            MedicationBL med = new MedicationBL(medId);
+            if (!medicationNameEdit.Value.Equals(med.MedicationName))
+                med.UpdateName(medicationNameEdit.Value);
+            if (!medicationDescriptionEdit.Value.Equals(med.MedicationDescription))
+                med.UpdateDescription(medicationDescriptionEdit.Value);
+            if (!medicationHowTakeEdit.Value.Equals(med.MedicationInstructions))
+                med.UpdateInstructions(medicationHowTakeEdit.Value);
+            if (!medicationQuantityEdit.Value.Equals(med.MedicationAmount.ToString()))
+                med.UpdateAmount(Convert.ToInt32(medicationQuantityEdit.Value));
 
-        protected void NewMedicationButton_Click1(object sender, EventArgs e)
-        {
 
+            if (Session["SelectedUser"] is UserBL user)
+            {
+                HttpPostedFile postedFile = medicationPictureEdit.PostedFile;
+                if (postedFile != null && postedFile.ContentLength > 0)
+                {
+                    try
+                    {
+                        // Check content type
+                        string contentType = postedFile.ContentType;
+                        if (!contentType.StartsWith("image/") || contentType == "image/webp")
+                        {
+                            string errorMessage = "Please upload a valid image file.";
+
+                            // Register the JavaScript function call
+                            string script = $"showError('{errorMessage}');";
+                            ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                            return; // Exit the method
+                        }
+
+
+                        // Specify the file name of the existing picture
+                        string existingFileName = $"{med.MedicationPhotoPath}";
+
+                        // Get the file path of the existing picture
+                        string existingFilePath = Server.MapPath("~/images/medication_images/") + existingFileName;
+
+                        // Check if the existing picture file exists
+                        if (File.Exists(existingFilePath))
+                        {
+                            // Delete the existing picture file
+                            File.Delete(existingFilePath);
+                        }
+
+                        // Save the new picture file
+                        string originalFileName = Path.GetFileName(postedFile.FileName);
+                        string newFileName = $"{user.userIdgs}_{originalFileName}";
+                        string folderPath = Server.MapPath("~/images/medication_images/"); // Change the path as per your requirement
+                        if (!Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        postedFile.SaveAs(Path.Combine(folderPath, newFileName));
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions
+                        // e.g., display error message
+                        string errorMessage = "Error: " + ex.Message;
+
+                        // Register the JavaScript function call
+                        string script = $"showError('{errorMessage}');";
+                        ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                    }
+                }
+
+                if (!medicationPictureEdit.Value.Equals(med.MedicationPhotoPath))
+                    med.UpdatePhotoPath($"{user.userIdgs}_{medicationPictureEdit.Value}");
+            }
+      
+            EditMedicationForm.Style["display"] = "none";
+            PopulateMedications();
         }
 
         protected void AddNewMedicationButton_Click(object sender, EventArgs e)
@@ -127,10 +246,9 @@ namespace webAssistPill
                     }
                 }
 
-
-                if (medicationName.Equals(null) || howToTake.Equals(null) || quantity == 0)
+                if (medicationName.Equals(null) || howToTake.Equals(null) || quantity <= 0)
                 {
-                    string errorMessage = "Please Fill All fields!";
+                    string errorMessage = "Please Fill All fields right!";
                     string script = $"showError('{errorMessage}');";
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                     return;
@@ -143,7 +261,7 @@ namespace webAssistPill
                     {
                         // Check content type
                         string contentType = postedFile.ContentType;
-                        if (!contentType.StartsWith("image/"))
+                        if (!contentType.StartsWith("image/" )|| contentType == "image/webp")
                         {
                             string errorMessage = "Please upload a valid image file.";
 
@@ -189,6 +307,21 @@ namespace webAssistPill
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                 }
             }
+            medicationNameEdit.Value = null;
+            medicationDescriptionEdit.Value = null;
+            medicationHowTakeEdit.Value = null;
+            medicationQuantityEdit.Value = null;
+            NewMedicationForm.Style["display"] = "none";
+        }
+
+        protected void ExitButtonEditForm_Click(object sender, EventArgs e)
+        {
+            EditMedicationForm.Style["display"] = "none";
+        }
+
+        protected void FormExitButton_Click(object sender, EventArgs e)
+        {
+            NewMedicationForm.Style["display"] = "none";
         }
     } 
 }

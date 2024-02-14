@@ -44,10 +44,11 @@
         </div>
         <div class="form-input">
             <label for="medication-picture-edit">Picture:</label>
-            <input type="file" id="medicationPictureEdit" onchange="previewImage(this)" accept="image/*" runat="server" />
-            <img runat="server" id="imagePreviewEdit" src="#" alt="Image Preview" />
+            <input type="file" id="medicationPictureEdit" onchange="previewImageEdit(this)" accept="image/*" runat="server" />
+            <img id="imagePreviewEdit" src="#" alt="Image Preview" />
         </div>
         <asp:Button ID="SaveEditButton" CssClass="form-button" OnClick="SaveEditButton_Click" runat="server" Text="Save Changes" />
+        <asp:Button ID="ExitButtonEditForm" CssClass="form-exit-button" OnClick="ExitButtonEditForm_Click" runat="server" Text="Exit" />
     </div>
     <div class="add-medication-form" id="NewMedicationForm" runat="server">
         <h2>Add New Medication</h2>
@@ -68,11 +69,12 @@
             <input type="number" id="medicationQuantityAdd" runat="server" placeholder="Enter medication quantity">
         </div>
         <div class="form-input" >
-            <label for="medication-picture-edit">Picture:</label>
+            <label for="medication-picture-add">Picture:</label>
             <input type="file" id="medicationPictureAdd" onchange="previewImage(this)" accept="image/*" runat="server" />
             <img id="imagePreview" src="#" alt="Image Preview" />
         </div>
         <asp:Button ID="AddNewMedicationButton" CssClass="form-button" OnClick="AddNewMedicationButton_Click" runat="server" Text="Add Medication" />
+        <asp:Button ID="FormExitButton" OnClick="FormExitButton_Click" CssClass="form-exit-button" runat="server" Text="Exit" />
     </div>
     <!-- Popup div for displaying error messages -->
     <div class="popup" id="error-popup">

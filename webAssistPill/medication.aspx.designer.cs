@@ -87,15 +87,6 @@ namespace webAssistPill
         protected global::System.Web.UI.HtmlControls.HtmlInputFile medicationPictureEdit;
 
         /// <summary>
-        /// imagePreviewEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imagePreviewEdit;
-
-        /// <summary>
         /// SaveEditButton control.
         /// </summary>
         /// <remarks>
@@ -103,6 +94,15 @@ namespace webAssistPill
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SaveEditButton;
+
+        /// <summary>
+        /// ExitButtonEditForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ExitButtonEditForm;
 
         /// <summary>
         /// NewMedicationForm control.
@@ -166,6 +166,15 @@ namespace webAssistPill
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewMedicationButton;
+
+        /// <summary>
+        /// FormExitButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button FormExitButton;
 
         /// <summary>
         /// selectedPatientLabel control.
