@@ -15,7 +15,7 @@ namespace webAssistPill
         {
             if (!IsPostBack)
             {
-                Session["User"] = new UserBL("dolev@gmail.com", "aba123");
+                //Session["User"] = new UserBL("dolev@gmail.com", "aba123");
                 if (Session["User"] is UserBL user)
                 {
                     List<ScheduleBL> schedule = user.GetSchedule();

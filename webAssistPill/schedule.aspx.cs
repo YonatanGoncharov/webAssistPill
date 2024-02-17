@@ -16,8 +16,8 @@ namespace webAssistPill
         {
             if (!Page.IsPostBack)
             {
-                Session["SelectedUser"] = new UserBL("dolev@gmail.com", "aba123");
-                Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123"); //existing user for testing
+                //Session["SelectedUser"] = new UserBL("dolev@gmail.com", "aba123");
+                //Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123"); //existing user for testing
                 PopulateMedications();
                 PopulateMedicationsDropDown();
                 if (Session["SelectedUser"] is UserBL selectedPatient)

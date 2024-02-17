@@ -40,5 +40,19 @@ namespace webAssistPill
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label selectedPatientLabel;
+
+        /// <summary>
+        /// Master property.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated property.
+        /// </remarks>
+        public new webAssistPill.masterpage Master
+        {
+            get
+            {
+                return ((webAssistPill.masterpage)(base.Master));
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace webAssistPill
         {
             if (!IsPostBack)
             {
-                Session["user"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
+               // Session["user"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
                 if (Session["user"] is AttendantBL attendant)
                 {
                     MessagesBL messagesBL = new MessagesBL(attendant.attendantIdGS);

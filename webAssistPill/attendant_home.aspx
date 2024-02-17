@@ -1,4 +1,6 @@
-﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/MainAttendant.Master" AutoEventWireup="true" CodeBehind="attendant_home.aspx.cs" Inherits="webAssistPill.attendant_home1" %>
+﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/MainAttendant.Master" AutoEventWireup="true" CodeBehind="attendant_home.aspx.cs" Inherits="webAssistPill.attendant_home1"%>
+<%@ MasterType VirtualPath="~/MainAttendant.Master" %>
+
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderMain" runat="server">
     <h1>Patients List</h1>

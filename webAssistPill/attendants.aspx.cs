@@ -15,7 +15,7 @@ namespace webAssistPill
             if (!IsPostBack)
             {
                 // Populate the attendants on page load
-                Session["User"] = new UserBL("dolev@gmail.com", "aba123");
+                //Session["User"] = new UserBL("dolev@gmail.com", "aba123");
                 PopulateAttendants();
             }
         }

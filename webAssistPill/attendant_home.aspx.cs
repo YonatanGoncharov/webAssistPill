@@ -1,9 +1,8 @@
 ﻿using AssistPillBL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace webAssistPill
@@ -12,9 +11,20 @@ namespace webAssistPill
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Access the footer in the master page
+           
             if (!Page.IsPostBack)
             {
-                Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
+                masterpage master = Master as masterpage;
+
+                if (master != null)
+                {
+                    master.HomeButton1.Visible = false;  // or false to hide
+                    master.HomeButton2.Visible = false;  // or false to hide
+                    master.HomeButton3.Visible = false;  // or false to hide
+                    master.HomeButton4.Visible = false;  // or false to hide
+                }
+                //Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123");
 
                 // Check if the user is an attendant
                 if (Session["User"] is AttendantBL attendant)
@@ -28,6 +38,9 @@ namespace webAssistPill
                     patientDropdown.DataValueField = "userIdgs"; // Replace with the actual property name for patient IDs
                     patientDropdown.DataBind();
                 }
+
+
+
             }
         }
         protected void viewButton_Click(object sender, EventArgs e)
@@ -45,6 +58,15 @@ namespace webAssistPill
                 selectedPatientLabel.Text = $"Viewing: {selectedPatient.userNamegs}";
 
                 Session["SelectedUser"] = selectedPatient;
+                
+                masterpage master = Master as masterpage;
+                if (master != null)
+                {
+                    master.HomeButton1.Visible = true;  // or false to hide
+                    master.HomeButton2.Visible = true;  // or false to hide
+                    master.HomeButton3.Visible = true;  // or false to hide
+                    master.HomeButton4.Visible = true;  // or false to hide
+                }
             }
         }
     }

@@ -19,11 +19,11 @@
             </asp:ContentPlaceHolder>
         </div>
     </form>
-     <footer>
-     <button onclick="location.href ='attendant_home.aspx'" class="switch-button">Home</button>
-     <button onclick="location.href ='schedule.aspx'" class="switch-button">Schedule</button>
-     <button onclick="location.href ='messages.aspx'" class="switch-button">Messages</button>
-     <button onclick="location.href ='medication.aspx'" class="switch-button">Medication</button>
+<footer>
+     <button id="homeButton1" onclick="location.href ='attendant_home.aspx'" runat="server" class="switch-button">Home</button>
+     <button id="homeButton2" onclick="location.href ='schedule.aspx'" runat="server" class="switch-button">Schedule</button>
+     <button id="homeButton3" onclick="location.href ='messages.aspx'" runat="server" class="switch-button">Messages</button>
+     <button id="homeButton4" onclick="location.href ='medication.aspx'" runat="server" class="switch-button">Medication</button>
      <button class="exit-button" onclick="exitAccount()">Exit</button>
 </footer>
 </body>
