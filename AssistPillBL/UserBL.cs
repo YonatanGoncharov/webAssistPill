@@ -64,6 +64,17 @@ namespace AssistPillBL
             this.userId = (int)dr[0];
         }
         /// <summary>
+        /// checking if the user exists
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public static bool IsUser(string email)
+        {
+            if (UserClass.IsUserExist(email))
+                return true;
+            return false;
+        }
+        /// <summary>
         /// updating the password
         /// </summary>
         /// <param name="newPassword"></param>
@@ -74,6 +85,21 @@ namespace AssistPillBL
             UserClass.UpdatePassword(this.userEmail, newPassword);
             this.userPassword = newPassword;
         }
+        /// <summary>
+        /// updating if the user request to make a new password
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <exception cref="Exception"></exception>
+        public static void UpdateForNewPassword(string email, string newPassword)
+        {
+            DataTable dt = UserClass.GetSpecifiecUser(email);
+            DataRow dr = dt.Rows[0];
+            string dbPass = dr[4].ToString();
+            if (newPassword.Equals(dbPass))
+                throw new Exception("Same password");
+            UserClass.UpdatePassword(email, newPassword);
+        }
+
         /// <summary>
         /// updating the email
         /// </summary>
@@ -103,7 +129,12 @@ namespace AssistPillBL
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 DataRow dr = dt.Rows[i];
-                ScheduleBL schedule = new ScheduleBL((int)dr[0], (int)dr[1], (int)dr[2], dr[3].ToString(), (int)dr[4]);
+                int scheduleId = (int)dr[0];
+                int medicationId = (int)dr[1];
+                int dayOfTheWeek = (int)dr[2];
+                string takingTime = dr[3].ToString();
+                int userId = (int)dr[4];
+                ScheduleBL schedule = new ScheduleBL(scheduleId, medicationId, dayOfTheWeek, takingTime, userId);
                 this.weeklySchedule.Add(schedule);
             }
             return this.weeklySchedule;

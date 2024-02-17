@@ -28,7 +28,7 @@
                 OnServerValidate="cvEmail_ServerValidate">
             </asp:CustomValidator>
             </div>
-             <asp:Button ID="emailRequestButton" CssClass="button" OnClick="emailRequestButton_Click" runat="server" Text="Button" />
+             <asp:Button ID="emailRequestButton" CssClass="button" OnClick="emailRequestButton_Click" runat="server" Text="Send" />
         </form>
     
         <div style="margin: 5px;">

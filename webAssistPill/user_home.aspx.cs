@@ -15,7 +15,7 @@ namespace webAssistPill
         {
             if (!IsPostBack)
             {
-                //Session["User"] = new UserBL("dolev@gmail.com", "aba123");
+                Session["User"] = new UserBL("dolev@gmail.com", "aba123");
                 if (Session["User"] is UserBL user)
                 {
                     List<ScheduleBL> schedule = user.GetSchedule();
@@ -25,9 +25,11 @@ namespace webAssistPill
                     List<ScheduleBL> noonSchedule = new List<ScheduleBL>();
                     foreach (ScheduleBL sch in schedule)
                     {
-                        DateTime dateTime = DateTime.ParseExact(sch.takingTimeGS, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                        int day = sch.dayOfTheWeekGS;
+                        string takingTime = sch.takingTimeGS;
+                        string hourString = takingTime.Substring(11, 2);
+                        int hour = int.Parse(hourString);
 
+                        int day = sch.dayOfTheWeekGS;
 
                         // Get the day of the week
                         DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
@@ -35,7 +37,7 @@ namespace webAssistPill
 
                         if (day == dayOfWeekNumber + 1)
                         {
-                            int hour = dateTime.Hour;
+                             
                             //putting the right medication in the right med time
                             if (hour >= 6 && hour < 12)
                             {

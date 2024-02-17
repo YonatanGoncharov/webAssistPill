@@ -663,3 +663,34 @@ select {
     right: 5px;
     cursor: pointer;
 }
+
+.quote-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.quote-text {
+    font-style: italic;
+    font-size: 20px;
+    color: #333;
+}
+
+.quote-author {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.same-width {
+    width: 796px; /* Adjust the width value as needed */
+}
+
+.med-button {
+    background-color: #247591;
+    font-size: 16px;
+}
+.med-takingtime {
+    color: rgb(51, 51, 51);
+}

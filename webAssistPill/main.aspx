@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="main.aspx.cs" Inherits="webAssistPill.main" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="main.aspx.cs" Inherits="webAssistPill.main" Async="true"%>
 
 <!DOCTYPE html>
 
@@ -11,7 +11,11 @@
 </head>
 <body>
     <form runat="server">
-        <div class="container">
+           <div class="quote-container">
+           <asp:Label ID="quoteTextLiteral" runat="server" CssClass="quote-text" Text=""></asp:Label>
+           <asp:Label ID="quoteAuthorLiteral" CssClass="quote-author" runat="server" Text=""></asp:Label>
+      </div>
+        <div class="container same-width" >
         <header>
             <h1>Welcome to AssistPill</h1>
             <img src="images/AssistPill.png" alt="AssistPill Logo" width="150"/>
@@ -19,20 +23,21 @@
         <section>
             <h2>What is AssistPill?</h2>
             <p>
-                AssistPill is your trusted medication management system. 
-                It helps you keep track of your medications, appointments, and more, 
+                AssistPill is your trusted medication management and reminder system. 
+                It helps you keep track of your medications, medication schedule, and more, 
                 making your healthcare journey easier and more efficient.
             </p>
             <!-- Add some photos or illustrations here -->
         </section>
+      
         <div class="login-register-buttons-container" runat="server">
             <asp:Button ID="loginButton" CssClass="switch-button" runat="server" Text="Login" OnClick="loginButton_Click"/>
             <asp:Button ID="registerButton" CssClass="switch-button" runat="server" Text="Register" OnClick="registerButton_Click"/>
         </div>
         </div>
-        <footer>
+        <footer class="same-width">
             <p>&copy; 2023 AssistPill. All rights reserved.</p>
         </footer>
-    </form>
+    </form >
 </body>
 </html>

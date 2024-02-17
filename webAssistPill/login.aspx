@@ -43,6 +43,7 @@
             <asp:Button ID="loginButton" value="Login" runat="server" Text="Login" CssClass="button" OnClick="loginButton_Click"/>
         </form>
         <p>Don't have an account? <a href="register.aspx">Register</a></p>
+        <p>Forgot your password? <a href="password_reset.aspx">Password Reset</a></p>
     </div>
 </body>
 </html>

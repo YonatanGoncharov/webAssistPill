@@ -64,6 +64,17 @@ namespace AssistPillBL
             this.patientsGS = this.GetPatients();
         }
         /// <summary>
+        /// checkinf if the attendant exists
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public static bool IsAttendant(string email)
+        {
+            if (AttendantClass.IsAttendantExist(email))
+                return true;
+            return false;
+        }
+        /// <summary>
         /// updating password
         /// </summary>
         /// <param name="newPassword"></param>
@@ -74,6 +85,22 @@ namespace AssistPillBL
             AttendantClass.UpdatePassword(this.attendantEmail, newPassword);
             this.attendantPassword = newPassword;
         }
+        /// <summary>
+        /// updating if the user request to make a new password
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <exception cref="Exception"></exception>
+        public static void UpdateForNewPassword(string email, string newPassword)
+        {
+            DataTable dt = AttendantClass.GetSpecifiecAttendant(email);
+            DataRow dr = dt.Rows[0];
+            string dbPass = dr[4].ToString();
+            if (newPassword.Equals(dbPass))
+                throw new Exception("Same password");
+            AttendantClass.UpdatePassword(email, newPassword);
+        }
+
+
         /// <summary>
         /// updating the email
         /// </summary>

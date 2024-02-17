@@ -9,10 +9,11 @@
     <h3>Morning</h3>
     <asp:Repeater ID="morningRepeater" runat="server">
     <ItemTemplate>
-        <div class="med">
-            <button class="button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
+        <div class="med ">
+            <button class="button med-button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
                 <%# GetMedName(Eval("medicationIdGS")) %>
             </button> 
+            
             <div class="med-takingtime"><%# GetMedTakingTime(Eval("takingTimeGS")) %></div>
         </div>
     </ItemTemplate>
@@ -25,7 +26,7 @@
     <asp:Repeater ID="noonRepeater" runat="server">
          <ItemTemplate>
              <div class="med">
-                 <button class="button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
+                 <button class="button med-button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
                      <%# GetMedName(Eval("medicationIdGS")) %>
                  </button> 
                  <div class="med-takingtime"><%# GetMedTakingTime(Eval("takingTimeGS")) %></div>
@@ -40,7 +41,7 @@
     <asp:Repeater ID="afternoonRepeater" runat="server">
          <ItemTemplate>
              <div class="med">
-                 <button class="button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
+                 <button class="button med-button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
                      <%# GetMedName(Eval("medicationIdGS")) %>
                  </button> 
                  <div class="med-takingtime"><%# GetMedTakingTime(Eval("takingTimeGS")) %></div>
@@ -55,7 +56,7 @@
     <asp:Repeater ID="eveningRepeater" runat="server">
          <ItemTemplate>
              <div class="med">
-                 <button class="button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
+                 <button class="button med-button" type="button" onclick="showMedicationDetails('<%# GetMedName(Eval("medicationIdGS")) %>', '<%# GetMedImgPath(Eval("medicationIdGS")) %>', '<%# GetMedInstructions(Eval("medicationIdGS")) %>', '<%# GetMedDescription(Eval("medicationIdGS")) %>')">
                      <%# GetMedName(Eval("medicationIdGS")) %>
                  </button> 
                  <div class="med-takingtime"><%# GetMedTakingTime(Eval("takingTimeGS")) %></div>
