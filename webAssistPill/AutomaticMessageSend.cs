@@ -44,8 +44,9 @@ namespace webAssistPill
         }
         private static void AttendantReminder()
         {
-            AttendantsBL attendants = new AttendantsBL();
-            List<AttendantBL> list = attendants.Attendants;
+            UsersBL users = new UsersBL();
+            List<UserBL> usersList = users.Users;
+            
         }
         private static void SendReminderEmail(string userEmail, DateTime takingTime)
         {
