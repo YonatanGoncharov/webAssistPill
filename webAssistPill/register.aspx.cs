@@ -25,6 +25,11 @@ namespace webAssistPill
             bool isAttendant = isAttendantCb.Checked;
             if (!string.IsNullOrWhiteSpace(email) || !string.IsNullOrWhiteSpace(password) || !string.IsNullOrWhiteSpace(firstN) || !string.IsNullOrWhiteSpace(lastN))
             {
+                if (!email.Contains("gmail") && !email.Contains("yahoo") && !email.Contains("office365"))
+                {
+                    errorMessage.Text = "This site doesn't support the following email";
+                    return;
+                }
                 //if the user checked that he is an attendant
                 if (isAttendant)
                 {
@@ -34,6 +39,7 @@ namespace webAssistPill
                         Session["User"] = user;
                         Session["IsAttendant"] = true;
                         Response.Redirect("attendant_home.aspx");
+                        
                     }
                     catch (Exception ex)
                     {

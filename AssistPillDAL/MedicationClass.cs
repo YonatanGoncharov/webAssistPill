@@ -10,7 +10,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static DataTable GetAllMedications()
         {
-            string sSql = $@"Select MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount) , (MedicationPhoto) , (IsRemoved) , (UserId)from MedicationTBL";
+            string sSql = $@"Select MedicationId, (MedicationName) , (MedicationDescription) , (MedicationInstructions) , (MedicationAmount) , (MedicationPhoto) , (IsRemoved) , (UserId) from MedicationTBL";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }

@@ -128,6 +128,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="attendant_confirmation_page.aspx" />
     <Content Include="attendants.aspx" />
     <Content Include="attendant_home.aspx" />
     <Content Include="html pages\attendants.html" />
@@ -141,6 +142,7 @@
     <Content Include="html pages\main.html" />
     <Content Include="medication.aspx" />
     <Content Include="html pages\medications.html" />
+    <Content Include="medication_taking.aspx" />
     <Content Include="messages.aspx" />
     <Content Include="password_reset.aspx" />
     <Content Include="html pages\password_reset.html" />
@@ -157,6 +159,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="attendant_confirmation_page.aspx.cs">
+      <DependentUpon>attendant_confirmation_page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="attendant_confirmation_page.aspx.designer.cs">
+      <DependentUpon>attendant_confirmation_page.aspx</DependentUpon>
+    </Compile>
     <Compile Include="attendants.aspx.cs">
       <DependentUpon>attendants.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -206,6 +215,13 @@
     </Compile>
     <Compile Include="medication.aspx.designer.cs">
       <DependentUpon>medication.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="medication_taking.aspx.cs">
+      <DependentUpon>medication_taking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="medication_taking.aspx.designer.cs">
+      <DependentUpon>medication_taking.aspx</DependentUpon>
     </Compile>
     <Compile Include="messages.aspx.cs">
       <DependentUpon>messages.aspx</DependentUpon>

@@ -70,6 +70,7 @@
     <Compile Include="AttendantBL.cs" />
     <Compile Include="AttendantsBL.cs" />
     <Compile Include="MedicationBL.cs" />
+    <Compile Include="MedicationStorageBL.cs" />
     <Compile Include="MessagesBL.cs" />
     <Compile Include="MessageBL.cs" />
     <Compile Include="Program.cs" />

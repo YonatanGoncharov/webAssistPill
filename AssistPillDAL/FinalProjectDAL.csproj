@@ -71,6 +71,7 @@
     <Compile Include="ConnectionClass.cs" />
     <Compile Include="DataHelper.cs" />
     <Compile Include="MedicationClass.cs" />
+    <Compile Include="MedicationStorageClass.cs" />
     <Compile Include="MessagesClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

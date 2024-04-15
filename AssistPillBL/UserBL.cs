@@ -64,6 +64,20 @@ namespace AssistPillBL
             this.userId = (int)dr[0];
         }
         /// <summary>
+        /// builder for the user with his id
+        /// </summary>
+        /// <param name="userId"></param>
+        public UserBL(int userId)
+        {
+            DataTable dt = UserClass.GetSpecifiecUserById(userId);
+            DataRow dr = dt.Rows[0];
+            this.userId = userId;
+            this.userName = dr[1].ToString();
+            this.userLastName = dr[2].ToString();
+            this.userEmail = dr[3].ToString();
+            this.userPassword = dr[4].ToString();
+        }
+        /// <summary>
         /// checking if the user exists
         /// </summary>
         /// <param name="email"></param>

@@ -26,6 +26,17 @@ namespace FinalProjectDAL
             return dt;
         }
         /// <summary>
+        /// getting specifiec user by his id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static DataTable GetSpecifiecUserById(int userId)
+        {
+            string sSql = $@"Select UserId, (UserName) , (UserLastName) , (UserEmail) , (UserPassword) from UserTBL Where UserTBL.[UserId] = {userId} AND UserTBL.[IsRemoved] = {false};";
+            DataTable dt = DBHelper.GetDataTable(sSql);
+            return dt;
+        }
+        /// <summary>
         /// checks if the user data exists in the database
         /// </summary>
         /// <param name="userEmail"></param>
