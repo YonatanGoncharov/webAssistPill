@@ -22,7 +22,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static DataTable GetSpecifiecSchedule(int scheduleId)
         {
-            string sSql = $@"SELECT ScheduleId, (MedicationId) , (DayOfWeek) , (TakingTime) , (UserId)  from ScheduleTBL WHERE ScheduleTBL.[ScheduleId] = {scheduleId};";
+            string sSql = $@"SELECT ScheduleId, (MedicationId) , (DayOfWeek) , (TakingTime) , (UserId)  from ScheduleTBL WHERE ScheduleTBL.[ScheduleId] = {scheduleId} AND ScheduleTBL.[IsRemoved] = {false};";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
@@ -174,50 +174,6 @@ namespace FinalProjectDAL
             string sSql = $@"UPDATE ScheduleTBL SET ScheduleTBL.IsRemoved = {true} WHERE ScheduleTBL.ScheduleId = {scheduleId}";
             DBHelper.ExecuteNonQuery(sSql);
         }
-        /// <summary>
-        /// getting the detail of the schedule medication
-        /// </summary>
-        /// <param name="scheduleId"></param>
-        /// <returns></returns>
-        public static DataTable GetMedicationTakingDetail(int scheduleId)
-        {
-            string sSql = $@"SELECT TakingDetailTBL.[TakingDate] , TakingDetailTBL.[IsTookStatus]
-                      FROM TakingDetailTBL
-                      INNER JOIN ScheduleTBL
-                      ON ScheduleTBL.[ScheduleId] = TakingDetailTBL.[ScheduleId]
-                      WHERE TakingDetailTBL.[ScheduleId] = {scheduleId}
-                      AND TakingDetailTBL.[IsRemoved] = {false};";
-            DataTable dt = DBHelper.GetDataTable(sSql);
-            return dt;
-        }
-        /// <summary>
-        /// inserting the schedule taking detail to the database
-        /// </summary>
-        /// <param name="scheduleId"></param>
-        /// <param name="takingDate"></param>
-        public static void InsertScheduleTakingDetail(int scheduleId, string takingDate)
-        {
-            string sSql = $@"INSERT INTO TakingDetailTBL (ScheduleId, TakingDate) VALUES ({scheduleId}, '{Convert.ToDateTime(takingDate)}')";
-            DBHelper.ExecuteNonQuery(sSql);
-        }
-        /// <summary>
-        /// changing the schedule taking detail status to took
-        /// </summary>
-        /// <param name="scheduleId"></param>
-        public static void ScheduleTakingDetailStatus(int scheduleId)
-        {
-            string sSql = $@"UPDATE TakingDetailTBL SET IsTookStatus = {true} WHERE ScheduleId = {scheduleId} AND IsRemoved = {false};";
-            DBHelper.ExecuteNonQuery(sSql);
-        }
-
-        /// <summary>
-        /// removing the schedule taking detail
-        /// </summary>
-        /// <param name="scheduleId"></param>
-        public static void RemoveScheduleTakingDetail(int scheduleId)
-        {
-            string sSql = $@"UPDATE TakingDetailTBL SET IsRemoved = {true} WHERE ScheduleId = {scheduleId} AND IsRemoved = {false};";
-            DBHelper.ExecuteNonQuery(sSql);
-        }
+    
     }
 }

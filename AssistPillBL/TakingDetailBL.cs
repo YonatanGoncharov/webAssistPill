@@ -30,7 +30,7 @@ namespace AssistPillBL
             this.scheduleId = scheduleId;
             this.takingDate = takingDate;
             this.isTookStatus = false;
-            ScheduleClass.InsertScheduleTakingDetail(scheduleId, takingDate);
+            TakingDetailClass.InsertScheduleTakingDetail(scheduleId, takingDate);
         }
         /// <summary>
         /// existing taking detail
@@ -40,7 +40,7 @@ namespace AssistPillBL
         {
             this.scheduleId = scheduleId;
             
-            DataTable dt = ScheduleClass.GetMedicationTakingDetail(scheduleId);
+            DataTable dt = TakingDetailClass.GetSpecifiecTakingDetail(scheduleId);
             DataRow dr = dt.Rows[0];
             this.takingDate = dr[1].ToString();
             this.isTookStatus = (bool)dr[2];
@@ -51,7 +51,7 @@ namespace AssistPillBL
         public void NewTaking()
         {
             this.isTookStatus = true;
-            ScheduleClass.ScheduleTakingDetailStatus(this.ScheduleId);   
+            TakingDetailClass.ScheduleTakingDetailStatus(this.ScheduleId);   
         }
        
     }

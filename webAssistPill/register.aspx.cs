@@ -16,6 +16,7 @@ namespace webAssistPill
 
         }
 
+        //register button
         protected void registerButton_Click(object sender, EventArgs e)
         {
             string email = txtEmailReg.Text;
@@ -72,7 +73,7 @@ namespace webAssistPill
           
             
         }
-
+        //first name validate
         protected void cvFname_ServerValidate(object source, ServerValidateEventArgs args)
         {
             if (txtfnameReg.Text.Length == 0)
@@ -87,6 +88,12 @@ namespace webAssistPill
             }
             else
             {
+                // Define a regular expression pattern to match the format of the password
+                // ^ asserts the start of the string
+                // [a-zA-Z] matches any letter (lowercase or uppercase) at the beginning of the string
+                // [a-zA-Z0-9]* matches zero or more occurrences of letters (lowercase or uppercase) or digits (0-9)
+                // $ asserts the end of the string
+                // RegexOptions.IgnoreCase is used to perform case-insensitive matching
                 Match m = Regex.Match(txtfnameReg.Text, @"^[a-zA-Z]*$", RegexOptions.IgnoreCase);
                 if (!m.Success)
                 {
@@ -99,7 +106,7 @@ namespace webAssistPill
                 }
             }
         }
-
+        //last name validate
         protected void cvLname_ServerValidate(object source, ServerValidateEventArgs args)
         {
             if (txtlNameReg.Text.Length == 0)
@@ -114,6 +121,12 @@ namespace webAssistPill
             }
             else
             {
+                // Define a regular expression pattern to match the format of the password
+                // ^ asserts the start of the string
+                // [a-zA-Z] matches any letter (lowercase or uppercase) at the beginning of the string
+                // $ asserts the end of the string
+                // RegexOptions.IgnoreCase is used to perform case-insensitive matching
+
                 Match m = Regex.Match(txtlNameReg.Text, @"^[a-zA-Z]*$", RegexOptions.IgnoreCase);
                 if (!m.Success)
                 {
@@ -126,7 +139,7 @@ namespace webAssistPill
                 }
             }
         }
-
+        //email validate
         protected void cvEmail_ServerValidate(object source, ServerValidateEventArgs args)
         {
             string email = args.Value;
@@ -152,7 +165,7 @@ namespace webAssistPill
                 }
             }
         }
-
+        //password validate
         protected void reqPassword_ServerValidate(object source, ServerValidateEventArgs args)
         {
             if (txtPassword.Text.Length == 0)
@@ -167,6 +180,13 @@ namespace webAssistPill
             }
             else
             {
+                // Define a regular expression pattern to match the format of the password
+                // ^ asserts the start of the string
+                // [a-zA-Z] matches any letter (lowercase or uppercase) at the beginning of the string
+                // [a-zA-Z0-9]* matches zero or more occurrences of letters (lowercase or uppercase) or digits (0-9)
+                // $ asserts the end of the string
+                // RegexOptions.IgnoreCase is used to perform case-insensitive matching
+
                 Match m = Regex.Match(txtPassword.Text, @"^[a-zA-Z][a-zA-Z0-9]*$", RegexOptions.IgnoreCase);
                 if (!m.Success)
                 {

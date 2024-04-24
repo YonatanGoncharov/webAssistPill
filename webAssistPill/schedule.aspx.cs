@@ -18,8 +18,8 @@ namespace webAssistPill
             {
                 //Session["SelectedUser"] = new UserBL("dolev@gmail.com", "aba123");
                 //Session["User"] = new AttendantBL("gwnzrwbywntn@gmail.com", "123123"); //existing user for testing
-                PopulateMedications();
-                PopulateMedicationsDropDown();
+                PopulateMedications();//populating the medication repiter
+                PopulateMedicationsDropDown();//populating the medication dropdown
                 if (Session["SelectedUser"] is UserBL selectedPatient)
                 {
                     // Update the label with the selected patient's name
@@ -55,7 +55,7 @@ namespace webAssistPill
             return null;
         }
 
-
+        //making a drop down with the medications
         private void PopulateMedicationsDropDown()
         {
             if (Session["SelectedUser"] is UserBL user)
@@ -231,6 +231,7 @@ namespace webAssistPill
             editMedicationForm.Style["display"] = "none";
         }
 
+        //saving the changes in the edit form
         protected void SaveChangeEditForm_Click(object sender, EventArgs e)
         {
             object medId = Session["EditScheduleMedId"];
@@ -241,9 +242,9 @@ namespace webAssistPill
             {
                 if (sundayEdit.Checked)
                 {
-                    if (!repDays.Contains("Sunday"))
+                    if (!repDays.Contains("Sunday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 1, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 1);
                         new ScheduleBL((int)medId, 1, medicationTimeEdit.Value, user.userIdgs);
@@ -256,9 +257,9 @@ namespace webAssistPill
                 }
                 if (mondayEdit.Checked)
                 {
-                    if (!repDays.Contains("Monday"))
+                    if (!repDays.Contains("Monday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 2, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 2);
                         new ScheduleBL((int)medId, 2, medicationTimeEdit.Value, user.userIdgs);
@@ -271,9 +272,9 @@ namespace webAssistPill
                 }
                 if (tuesdayEdit.Checked)
                 {
-                    if (!repDays.Contains("Tuesday"))
+                    if (!repDays.Contains("Tuesday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 3, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 3);
                         new ScheduleBL((int)medId, 3, medicationTimeEdit.Value, user.userIdgs);
@@ -286,9 +287,9 @@ namespace webAssistPill
                 }
                 if (wednesdayEdit.Checked)
                 {
-                    if (!repDays.Contains("Wednesday"))
+                    if (!repDays.Contains("Wednesday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 4, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 4);
                         new ScheduleBL((int)medId, 4, medicationTimeEdit.Value, user.userIdgs);
@@ -301,9 +302,9 @@ namespace webAssistPill
                 }
                 if (thursdayEdit.Checked)
                 {
-                    if (!repDays.Contains("Thursday"))
+                    if (!repDays.Contains("Thursday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 5, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 5);
                         new ScheduleBL((int)medId, 5, medicationTimeEdit.Value, user.userIdgs);
@@ -316,9 +317,9 @@ namespace webAssistPill
                 }
                 if (fridayEdit.Checked)
                 {
-                    if (!repDays.Contains("Friday"))
+                    if (!repDays.Contains("Friday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 6, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 6);
                         new ScheduleBL((int)medId, 6, medicationTimeEdit.Value, user.userIdgs);
@@ -331,9 +332,9 @@ namespace webAssistPill
                 }
                 if (saturdayEdit.Checked)
                 {
-                    if (!repDays.Contains("Saturday"))
+                    if (!repDays.Contains("Saturday"))//adding new day incase he doesnt have it
                         new ScheduleBL((int)medId, 7, medicationTimeEdit.Value, user.userIdgs);
-                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))
+                    else if (!medicationTimeEdit.Value.Equals(TimetoString(medTakingTime)))//removing the day and adding again becauase he changed the time
                     {
                         FindAndRemoveByDay(medId, medTakingTime, 7);
                         new ScheduleBL((int)medId, 7, medicationTimeEdit.Value, user.userIdgs);
@@ -372,12 +373,15 @@ namespace webAssistPill
 
         protected void FormAddMedButton_Click(object sender, EventArgs e)
         {
+            // Check if a user is selected in the session
             if (Session["SelectedUser"] is UserBL user)
             {
+                // Parse selected medication ID and time to take from form inputs
                 int medicationId = int.Parse(medicationDropdown.SelectedValue);
                 string timeToTake = medicationTime.Value;
                 List<int> daysToRepeat = new List<int>();
 
+                // Collect selected days to repeat medication intake
                 if (sunday.Checked)
                     daysToRepeat.Add(1);
                 if (monday.Checked)
@@ -393,11 +397,12 @@ namespace webAssistPill
                 if (saturday.Checked)
                     daysToRepeat.Add(7);
 
-
                 bool flag = false;
+                // Retrieve all repeated schedules for the user
                 List<ScheduleBL> schedules = GettingReapeatedSchedule(user.GetSchedule());
                 foreach (ScheduleBL schedule in schedules)
                 {
+                    // Check if there's an existing schedule with the same time and medication ID
                     string time = TimetoString(schedule.takingTimeGS);
                     if (time.Equals(timeToTake) && schedule.medicationIdGS.Equals(medicationId))
                     {
@@ -406,33 +411,37 @@ namespace webAssistPill
                     }
                 }
 
+                // Validate if all required fields are filled
                 if (medicationDropdown.SelectedValue.Equals(null) || medicationTime.Value.Equals(null) || daysToRepeat.Count == 0)
                 {
                     string errorMessage = "Please Fill All!";
 
-                    // Register the JavaScript function call
+                    // Register the JavaScript function call to show error message
                     string script = $"showError('{errorMessage}');";
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                 }
+                // Check if there's already an existing similar schedule
                 else if (flag)
                 {
                     string errorMessage = "There is already existing similar schedule!";
 
-                    // Register the JavaScript function call
+                    // Register the JavaScript function call to show error message
                     string script = $"showError('{errorMessage}');";
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                 }
                 else
                 {
+                    // Create new schedules for selected days to repeat medication intake
                     foreach (int day in daysToRepeat)
                     {
-
                         new ScheduleBL(medicationId, day, timeToTake, user.userIdgs);
-
                     }
+                    // Populate medication dropdown with updated data
                     PopulateMedications();
                 }
+                // Hide the new medication form after submission
                 newMedicationForm.Style["display"] = "none";
+                // Uncheck all checkboxes for days of intake
                 foreach (Control control in formInputDays.Controls)
                 {
                     if (control is HtmlInputCheckBox checkbox)
@@ -440,11 +449,12 @@ namespace webAssistPill
                         checkbox.Checked = false;
                     }
                 }
+                // Clear the medication time input field
                 medicationTime.Value = null;
             }
-
         }
 
+        //exiting the form
         protected void FormExitButton_Click(object sender, EventArgs e)
         {
             newMedicationForm.Style["display"] = "none";

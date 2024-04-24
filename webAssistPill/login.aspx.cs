@@ -5,17 +5,19 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using AssistPillBL;
+using AssistPillBL; // Assuming this namespace contains business logic classes for user authentication
 
 namespace webAssistPill
 {
     public partial class login : System.Web.UI.Page
     {
+        // This method is called when the page loads
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // No logic currently present in Page_Load
         }
 
+        // Server-side validation method for the password field
         protected void reqPassword_ServerValidate(object source, ServerValidateEventArgs args)
         {
             if (txtPassword.Text.Length == 0)
@@ -25,11 +27,12 @@ namespace webAssistPill
             }
             else if (txtPassword.Text.Length < 8)
             {
-                cvPassword.ErrorMessage = "Password must contain atleast 8 characters!";
+                cvPassword.ErrorMessage = "Password must contain at least 8 characters!";
                 args.IsValid = false;
             }
             else
             {
+                // Validate if the password contains only letters and numbers
                 Match m = Regex.Match(txtPassword.Text, @"^[a-zA-Z][a-zA-Z0-9]*$", RegexOptions.IgnoreCase);
                 if (!m.Success)
                 {
@@ -42,16 +45,20 @@ namespace webAssistPill
                 }
             }
         }
+
+        // Event handler for the login button click event
         protected void loginButton_Click(object sender, EventArgs e)
         {
             string email = txtEmail.Text;
             string password = txtPassword.Text;
             bool isExists = true;
-            //trying to check if the user is not an attendant and connect him\
+
+            // Check if email and password fields are not empty
             if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
             {
                 try
                 {
+                    // Try to authenticate the user as a regular user
                     UserBL auser = new UserBL(email, password);
                     Session["User"] = auser;
                     Session["IsAttendant"] = false;
@@ -59,6 +66,7 @@ namespace webAssistPill
                 }
                 catch (Exception ex)
                 {
+                    // Handle exceptions if the user doesn't exist or the password is wrong
                     if (ex.Message.Equals("The user doesn't exist"))
                     {
                         isExists = false;
@@ -68,7 +76,8 @@ namespace webAssistPill
                         errorMessage.Text = ex.Message;
                     }
                 }
-                // if the user is possibly an attendant its checking it and connecting him to his home page
+
+                // If the user is possibly an attendant, check and redirect to attendant home page
                 if (!isExists)
                 {
                     try
@@ -93,6 +102,7 @@ namespace webAssistPill
             }
         }
 
+        // Server-side validation method for the email field
         protected void cvEmail_ServerValidate(object source, ServerValidateEventArgs args)
         {
             string email = args.Value;
@@ -104,8 +114,7 @@ namespace webAssistPill
             }
             else
             {
-                // Add your custom email validation logic here
-                // For example, you can use .NET's built-in MailAddress class
+                // Validate email format using MailAddress class
                 try
                 {
                     var mailAddress = new System.Net.Mail.MailAddress(email);

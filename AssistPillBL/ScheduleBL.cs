@@ -45,6 +45,24 @@ namespace AssistPillBL
             this.medicationName = dr[1].ToString();
         }
         /// <summary>
+        /// existing schedule with only id
+        /// </summary>
+        /// <param name="scheduleId"></param>
+        public ScheduleBL(int scheduleId)
+        {
+            this.scheduleId = scheduleId;
+          
+            DataTable dt = ScheduleClass.GetSpecifiecSchedule(scheduleId);
+            DataRow dr = dt.Rows[0];
+            this.medicationId = (int)dr[1];
+            this.dayOfTheWeek = (int)dr[2];
+            this.takingTime = dr[3].ToString();
+            this.userId = (int)dr[4];
+            DataTable dtv = MedicationClass.GetSpecifiecMedication(this.medicationId);
+            DataRow drv = dtv.Rows[0];
+            this.medicationName = drv[1].ToString();
+        }
+        /// <summary>
         /// inserting new schedule
         /// </summary>
         /// <param name="medicationId"></param>

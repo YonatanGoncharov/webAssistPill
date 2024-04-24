@@ -21,15 +21,13 @@ namespace AssistPillBL
         /// <summary>
         /// new message insert builder
         /// </summary>
-        /// <param name="messageId"></param>
         /// <param name="senderId"></param>
         /// <param name="recipientId"></param>
         /// <param name="messageDate"></param>
         /// <param name="messageContent"></param>
         /// <param name="messageSeen"></param>
-        public MessageBL(int messageId, int senderId, int recipientId, string messageDate, string messageContent, bool messageSeen)
+        public MessageBL(int senderId, int recipientId, string messageDate, string messageContent, bool messageSeen)
         {
-            this.messageId = messageId;
             this.senderId = senderId;
             this.recipientId = recipientId;
             this.messageDate = messageDate;

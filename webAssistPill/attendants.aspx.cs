@@ -94,6 +94,10 @@ namespace webAssistPill
             return !existingPriorities.Contains(priority);
         }
 
+        /// <summary>
+        /// getting the existing prioritys that are avalible
+        /// </summary>
+        /// <returns></returns>
         private int[] GetExistingPriorities()
         {
             int[] properties = null;
@@ -159,6 +163,7 @@ namespace webAssistPill
             // Return the actual confirmation result from the client-side script
             return true;
         }
+        //getting the priority of the attendant
         protected string GetPriority(object attendantId)
         {
             if (attendantId != null && Session["User"] is UserBL user)

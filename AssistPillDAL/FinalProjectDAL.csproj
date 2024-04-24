@@ -76,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleClass.cs" />
+    <Compile Include="TakingDetailClass.cs" />
     <Compile Include="UserClass.cs" />
   </ItemGroup>
   <ItemGroup>

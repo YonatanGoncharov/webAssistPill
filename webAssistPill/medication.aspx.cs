@@ -38,30 +38,36 @@ namespace webAssistPill
 
         protected void EditMedicationButton_Click(object sender, EventArgs e)
         {
+            // Hide the "Add Medication" form if it's currently displayed
             if (NewMedicationForm.Style["display"] == "block")
             {
                 NewMedicationForm.Style["display"] = "none"; // Hide the div
             }
+
+            // Show the "Edit Medication" form
             EditMedicationForm.Style["display"] = "block"; // Show the div
 
+            // Get the ID of the medication to be edited from the button's CommandArgument
             if (sender is Button btn)
             {
                 int medId = int.Parse(btn.CommandArgument);
+                // Store the medication ID in the session for later use
                 Session["EditMedId"] = medId;
+                // Retrieve medication details using the ID
                 MedicationBL med = new MedicationBL(medId);
+                // Populate the form fields with the medication details
                 medicationNameEdit.Value = med.MedicationName;
                 medicationDescriptionEdit.Value = med.MedicationDescription;
                 medicationHowTakeEdit.Value = med.MedicationInstructions;
                 medicationQuantityEdit.Value = med.MedicationAmount.ToString();
 
+                // Get the file path of the medication photo
                 string path = med.MedicationPhotoPath;
-                // Construct the file path based on the ID
+                // Call JavaScript function to display the edited medication photo
                 ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "showEditedPicture('" + path + "');", true);
-
-                
             }
-
         }
+
 
         protected void RemoveButton_Command(object sender, CommandEventArgs e)
         {
@@ -151,6 +157,7 @@ namespace webAssistPill
         {
             int medId = (int)Session["EditMedId"];
 
+            //updating the values
             MedicationBL med = new MedicationBL(medId);
             if (!medicationNameEdit.Value.Equals(med.MedicationName))
                 med.UpdateName(medicationNameEdit.Value);
@@ -228,17 +235,24 @@ namespace webAssistPill
 
         protected void AddNewMedicationButton_Click(object sender, EventArgs e)
         {
+            // Check if the session contains a UserBL object
             if (Session["SelectedUser"] is UserBL user)
             {
+                // Retrieve values from form fields
                 string medicationName = medicationNameAdd.Value;
                 string howToTake = medicationHowTakeAdd.Value;
                 int quantity = int.Parse(medicationQuantityAdd.Value);
                 string description = medicationDescriptionAdd.Value;
+
+                // Get user's existing medications
                 List<MedicationBL> medications = MedicationBL.GetUserMedications(user.userIdgs);
+
+                // Check if there is already a medication with the same name
                 foreach (MedicationBL medication in medications)
                 {
                     if (medication.MedicationName.Equals(medicationName))
                     {
+                        // Display error message if medication with the same name already exists
                         string errorMessage = "There is already medication with the same name!";
                         string script = $"showError('{errorMessage}');";
                         ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
@@ -246,6 +260,7 @@ namespace webAssistPill
                     }
                 }
 
+                // Check if all required fields are filled
                 if (medicationName.Equals(null) || howToTake.Equals(null) || quantity <= 0)
                 {
                     string errorMessage = "Please Fill All fields right!";
@@ -253,46 +268,42 @@ namespace webAssistPill
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                     return;
                 }
-                
+
+                // Check if a file is uploaded
                 HttpPostedFile postedFile = medicationPictureAdd.PostedFile;
                 if (postedFile != null && postedFile.ContentLength > 0)
                 {
                     try
                     {
-                        // Check content type
+                        // Check content type of the uploaded file
                         string contentType = postedFile.ContentType;
-                        if (!contentType.StartsWith("image/" )|| contentType == "image/webp")
+                        if (!contentType.StartsWith("image/") || contentType == "image/webp")
                         {
                             string errorMessage = "Please upload a valid image file.";
-
-                            // Register the JavaScript function call
                             string script = $"showError('{errorMessage}');";
                             ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                             return; // Exit the method
                         }
 
+                        // Generate new filename and save uploaded file
                         string originalFileName = Path.GetFileName(postedFile.FileName);
                         string newFileName = $"{user.userIdgs}_{originalFileName}";
 
-                        string folderPath = Server.MapPath("~/images/medication_images/"); // Change the path as per your requirement
+                        string folderPath = Server.MapPath("~/images/medication_images/");
                         if (!Directory.Exists(folderPath))
                         {
                             Directory.CreateDirectory(folderPath);
                         }
                         postedFile.SaveAs(Path.Combine(folderPath, newFileName));
 
+                        // Create new MedicationBL object with uploaded file details
                         new MedicationBL(medicationName, howToTake, description, quantity, newFileName, user.userIdgs);
                         PopulateMedications();
-                        // Optionally, you can save the filename or path in the database here
-                        // e.g., SaveFilePathToDatabase(Path.Combine(folderPath, filename));
                     }
                     catch (Exception ex)
                     {
                         // Handle exceptions
-                        // e.g., display error message
                         string errorMessage = "Error: " + ex.Message;
-
-                        // Register the JavaScript function call
                         string script = $"showError('{errorMessage}');";
                         ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                     }
@@ -301,12 +312,12 @@ namespace webAssistPill
                 {
                     // Display error message if no file is selected
                     string errorMessage = "Please select a file";
-
-                    // Register the JavaScript function call
                     string script = $"showError('{errorMessage}');";
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
                 }
             }
+
+            // Clear input fields and hide the form
             medicationNameEdit.Value = null;
             medicationDescriptionEdit.Value = null;
             medicationHowTakeEdit.Value = null;
@@ -314,11 +325,12 @@ namespace webAssistPill
             NewMedicationForm.Style["display"] = "none";
         }
 
+        //exit from edit form
         protected void ExitButtonEditForm_Click(object sender, EventArgs e)
         {
             EditMedicationForm.Style["display"] = "none";
         }
-
+        //exit from new med form
         protected void FormExitButton_Click(object sender, EventArgs e)
         {
             NewMedicationForm.Style["display"] = "none";
