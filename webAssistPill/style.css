@@ -296,6 +296,8 @@ input[type="checkbox"] {
     max-width: 800px;
     text-align: left;
     margin-top: 20px;
+    max-height: 400px; /* Limiting maximum height */
+    overflow-y: auto; /* Adding vertical scroll when content exceeds maximum height */
 }
 .message {
     background-color: #68ccee; /* Light Blue */
@@ -342,7 +344,7 @@ input[type="checkbox"] {
 }
 
  /* Styling for Medication List */
- .medication-list {
+.medication-list {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -351,6 +353,8 @@ input[type="checkbox"] {
     max-width: 800px;
     text-align: left;
     margin-top: 20px;
+    max-height: 400px; /* Limiting maximum height */
+    overflow-y: auto; /* Adding vertical scroll when content exceeds maximum height */
 }
 
 .medication-info {
@@ -461,7 +465,7 @@ input[type="checkbox"] {
     background-color: #4a94b9; /* Light Blue - Hover */
 }
  /* Styling for Attendants Page */
- .attendants-container {
+.attendants-container {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -470,7 +474,10 @@ input[type="checkbox"] {
     max-width: 800px;
     text-align: center;
     margin-top: 20px;
+    max-height: 400px; /* Limiting maximum height */
+    overflow-y: auto; /* Adding vertical scroll when content exceeds maximum height */
 }
+
 .attendant {
     background-color: #68ccee; /* Light Blue */
     color: white;
