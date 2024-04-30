@@ -8,6 +8,7 @@ using System.Net.Mail;
 
 namespace webAssistPill
 {
+    //Class for server side methods
     public class AutomaticMessageSend
     {
         /// <summary>
@@ -299,7 +300,7 @@ namespace webAssistPill
         /// <param name="currentTime"></param>
         /// <param name="range"></param>
         /// <returns></returns>
-        static bool IsWithinTimeRange(DateTime targetTime, DateTime currentTime, TimeSpan range)
+        private static bool IsWithinTimeRange(DateTime targetTime, DateTime currentTime, TimeSpan range)
         {
             return currentTime >= targetTime - range && currentTime <= targetTime;
         }

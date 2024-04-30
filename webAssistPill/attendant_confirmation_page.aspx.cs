@@ -16,34 +16,43 @@ namespace webAssistPill
             string thisUrl = Request.Url.AbsoluteUri;
             System.Collections.Specialized.NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(new Uri(thisUrl).Query);
 
-            string confirmationType = queryString["type"];
-            //checking if the type of the confirmation is related to the medication stock
-            if (confirmationType.Equals("stock"))
+            try
             {
-                int userId = int.Parse(queryString["user"]);
-                string attendantEmail = queryString["attendant"];
-                string date = queryString["date"];
-                MedicationStorageBL msr = new MedicationStorageBL(userId, date);
-                if (!msr.IsSawStatus) //if the user is the first to see the email the status will show as not seen
+                string confirmationType = queryString["type"];
+                //checking if the type of the confirmation is related to the medication stock
+                if (confirmationType.Equals("stock"))
                 {
-                    msr.SeenUpdate();
-                    UserBL user = new UserBL(userId);
-                    List<AttendantBL> attendants = user.GetAttendants();
-                    foreach (AttendantBL attendant in attendants)
+                    int userId = int.Parse(queryString["user"]);
+                    string attendantEmail = queryString["attendant"];
+                    string date = queryString["date"];
+                    MedicationStorageBL msr = new MedicationStorageBL(userId, date);
+                    if (!msr.IsSawStatus) //if the user is the first to see the email the status will show as not seen
                     {
-                        //sending to all of the other attendants that this task has been claimed by him
-                        string email = attendant.attendantEmailGS;
-                        AutomaticMessageSend.SendMessageIsClaimed(email, attendantEmail, date);
+                        msr.SeenUpdate();
+                        UserBL user = new UserBL(userId);
+                        List<AttendantBL> attendants = user.GetAttendants();
+                        foreach (AttendantBL attendant in attendants)
+                        {
+                            //sending to all of the other attendants that this task has been claimed by him
+                            string email = attendant.attendantEmailGS;
+                            AutomaticMessageSend.SendMessageIsClaimed(email, attendantEmail, date);
+                        }
                     }
                 }
+                else if (confirmationType.Equals("medication"))
+                {
+                    //stoping from sending any more emails to the other priority attedants because he took the task
+                    int takingdetaillogId = int.Parse(queryString["takingdetaillogId"]);
+                    TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(takingdetaillogId);
+                    takingDetailLogBL.TakingDetailLogStop();
+                }
+
             }
-            else if (confirmationType.Equals("medication"))
+            catch (Exception ex)
             {
-                //stoping from sending any more emails to the other priority attedants because he took the task
-                int takingdetaillogId = int.Parse(queryString["takingdetaillogId"]);
-                TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(takingdetaillogId);
-                takingDetailLogBL.TakingDetailLogStop();
+                //incase of testing
             }
+
 
         }
     }
