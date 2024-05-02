@@ -9,7 +9,7 @@ using System.Net.Mail;
 namespace webAssistPill
 {
     //Class for server side methods
-    public class AutomaticMessageSend
+    public static class AutomaticMessageSend
     {
         /// <summary>
         /// reminder to user to take hes medicine

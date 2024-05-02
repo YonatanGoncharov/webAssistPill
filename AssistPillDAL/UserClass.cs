@@ -5,12 +5,12 @@ namespace FinalProjectDAL
     public class UserClass
     {
         /// <summary>
-        /// getting all the users from the data base
+        /// getting all the users from the data base :)
         /// </summary>
         /// <returns></returns>
         public static DataTable GetAllUsers()
         {
-            string sSql = $@"Select UserId, (UserName) , (UserLastName) , (UserEmail) , (UserPassword) , (IsRemoved) from UserTBL";
+            string sSql = $@"Select UserId, (UserName) , (UserLastName) , (UserEmail) , (UserPassword) from UserTBL Where UserTBL.[IsRemoved] = {false};";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
