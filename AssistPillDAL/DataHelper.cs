@@ -19,7 +19,7 @@ namespace FinalProjectDAL
     public static class DBHelper
     {
         private static readonly string connectionstring = $@"Provider=Microsoft.ACE.OLEDB.12.0;
-                                                          Data Source= C:\webAssistPill\webAssistPill\AssistPillDAL\Data\FinalProjectDB.accdb;
+                                                          Data Source= C:\project AssistPill\webAssistPill\AssistPillDAL\Data\FinalProjectDB.accdb;
                                                           Persist Security Info=False;";
         private static OleDbConnection GetConnection()
         {

@@ -364,6 +364,16 @@ namespace webAssistPill
                 {
                     if (schedule.takingTimeGS.Equals(medTakingTime) && schedule.dayOfTheWeekGS == day && schedule.medicationIdGS.Equals(medId))
                     {
+                        try
+                        {
+                            TakingDetailBL td = new TakingDetailBL(schedule.scheduleIdGS);
+                            td.RemoveTaking();
+                        }
+                        catch
+                        {
+                            //if the taking detail does not exists yet
+                        }
+                        
                         schedule.ScheduleRemove();
                         break;
                     }
@@ -377,6 +387,15 @@ namespace webAssistPill
             if (Session["SelectedUser"] is UserBL user)
             {
                 // Parse selected medication ID and time to take from form inputs
+                if (medicationDropdown.SelectedValue.Equals(""))
+                {
+                    string errorMessage = "The user has no medications, please make one!";
+
+                    // Register the JavaScript function call to show error message
+                    string script = $"showError('{errorMessage}');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                    return;
+                }
                 int medicationId = int.Parse(medicationDropdown.SelectedValue);
                 string timeToTake = medicationTime.Value;
                 List<int> daysToRepeat = new List<int>();
@@ -412,7 +431,7 @@ namespace webAssistPill
                 }
 
                 // Validate if all required fields are filled
-                if (medicationDropdown.SelectedValue.Equals(null) || medicationTime.Value.Equals(null) || daysToRepeat.Count == 0)
+                if (medicationDropdown.SelectedValue.Equals("") || medicationTime.Value.Equals(null) || daysToRepeat.Count == 0)
                 {
                     string errorMessage = "Please Fill All!";
 

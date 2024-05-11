@@ -42,8 +42,8 @@ namespace AssistPillBL
             
             DataTable dt = TakingDetailClass.GetSpecifiecTakingDetail(scheduleId);
             DataRow dr = dt.Rows[0];
-            this.takingDate = dr[1].ToString();
-            this.isTookStatus = (bool)dr[2];
+            this.takingDate = dr[2].ToString();
+            this.isTookStatus = (bool)dr[3];
         }
         /// <summary>
         /// the user took the medication so the status changes
@@ -51,7 +51,14 @@ namespace AssistPillBL
         public void NewTaking()
         {
             this.isTookStatus = true;
-            TakingDetailClass.ScheduleTakingDetailStatus(this.ScheduleId);   
+            TakingDetailClass.ScheduleTakingDetailStatus(this.scheduleId);   
+        }
+        /// <summary>
+        /// removing the taking detail
+        /// </summary>
+        public void RemoveTaking()
+        {
+            TakingDetailClass.RemoveScheduleTakingDetail(this.scheduleId);
         }
        
     }

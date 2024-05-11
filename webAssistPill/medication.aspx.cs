@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json.Serialization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -238,11 +239,18 @@ namespace webAssistPill
             // Check if the session contains a UserBL object
             if (Session["SelectedUser"] is UserBL user)
             {
-                // Retrieve values from form fields
                 string medicationName = medicationNameAdd.Value;
                 string howToTake = medicationHowTakeAdd.Value;
+                if (string.IsNullOrEmpty(medicationQuantityAdd.Value))
+                {
+                    string errorMessage = "Make the quantity the right amount!";
+                    string script = $"showError('{errorMessage}');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                    return;
+                }
                 int quantity = int.Parse(medicationQuantityAdd.Value);
                 string description = medicationDescriptionAdd.Value;
+                
 
                 // Get user's existing medications
                 List<MedicationBL> medications = MedicationBL.GetUserMedications(user.userIdgs);
@@ -261,7 +269,7 @@ namespace webAssistPill
                 }
 
                 // Check if all required fields are filled
-                if (medicationName.Equals(null) || howToTake.Equals(null) || quantity <= 0)
+                if (string.IsNullOrEmpty(medicationName) || string.IsNullOrEmpty(howToTake) || quantity <= 0)
                 {
                     string errorMessage = "Please Fill All fields right!";
                     string script = $"showError('{errorMessage}');";

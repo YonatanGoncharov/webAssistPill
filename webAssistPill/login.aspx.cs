@@ -15,6 +15,7 @@ namespace webAssistPill
         protected void Page_Load(object sender, EventArgs e)
         {
             // No logic currently present in Page_Load
+            //UserBL user = new UserBL("yonatantheking123123@gmail.com", "yonabar123");
         }
 
         // Server-side validation method for the password field

@@ -34,8 +34,8 @@ namespace webAssistPill
                         if (IsWithinTimeRange(takingTime, DateTime.Now, TimeSpan.FromMinutes(30)))
                         {
                             // Send a reminder email
+                            
                             new TakingDetailBL(schedule.scheduleIdGS, takingTimeString);
-
                             SendReminderEmail(user.userEmailgs, takingTime, schedule.scheduleIdGS, user.userIdgs);
                         }
                     }
@@ -134,8 +134,7 @@ namespace webAssistPill
 
                                 // Extract only the attendantIdGS into a list
                                 List<int> sortedAttendantIds = attendantInfo.Select(attendant => attendant.attendantId).ToList();
-                                TakingDetailBL takingDetailBL = new TakingDetailBL(schedule.scheduleIdGS);
-                                TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(takingDetailBL.TakingDetailId);
+                                TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(td.TakingDetailId);
                                 //getting the first selected attendants in the user priority
                                 //checking if the count of the sent is already bigger then the amount of the attendats
                                 int chosenAttendant;
@@ -146,8 +145,8 @@ namespace webAssistPill
                                 }
                                 else
                                 {
-                                    takingDetailLogBL.ChangeNumberOfSent();
                                     chosenAttendant = sortedAttendantIds[takingDetailLogBL.NumberOfSent];
+                                    takingDetailLogBL.ChangeNumberOfSent();
                                 }
                                 
                                 // Find the AttendantBL object with the chosenAttendant ID
@@ -220,7 +219,7 @@ namespace webAssistPill
             MailMessage message = new MailMessage("your_email@example.com", userEmail);
             message.Subject = "Medication Reminder";
             message.Body = $"It's time to take your medication at {takingTime.ToString("HH:mm")}. Don't forget! \n" +
-                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/attendant_confirmation_page.aspx?userId={userId}&type=medication&takingDate={takingTime.ToString("HH:mm")}&schedule={scheduleId}&token={resetToken}";
+                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/medication_taking.aspx?userId={userId}&type=medication&takingDate={takingTime.ToString("HH:mm")}&schedule={scheduleId}&token={resetToken}";
             EmailSend(senderEmail, recipientEmail, senderPassword, message);
         }
         /// <summary>
@@ -232,14 +231,14 @@ namespace webAssistPill
         /// <param name="name"></param>
         private static void SendAttendantMedicationReminderEmail(string attendantEmail, DateTime takingTime, int takingdetaillogId , string name)
         {
-            string resetToken = Guid.NewGuid().ToString();
+            string resetToken = Guid.NewGuid().ToString();//making a token for uniuqe site
             string recipientEmail = attendantEmail;
             string senderEmail = "assistpillwebservice@gmail.com";
             string senderPassword = "zecq zbvq jocp hgwi";
             MailMessage message = new MailMessage("your_email@example.com", attendantEmail);
             message.Subject = "Medication Reminder";
             message.Body = $"Your patient {name} has missed his medicine at {takingTime.ToString("HH:mm")}. Please remind him now! if you did'nt see this after a time this will pass to the next attendant of the patient. \n" +
-                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/medication_taking.aspx?&type=medication&takingdetaillogId={takingdetaillogId}&token={resetToken}";
+                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/attendant_confirmation_page.aspx?&type=medication&takingdetaillogId={takingdetaillogId}&token={resetToken}";
             EmailSend(senderEmail, recipientEmail, senderPassword, message);
         }
         /// <summary>
@@ -302,7 +301,9 @@ namespace webAssistPill
         /// <returns></returns>
         private static bool IsWithinTimeRange(DateTime targetTime, DateTime currentTime, TimeSpan range)
         {
-            return currentTime >= targetTime - range && currentTime <= targetTime;
+            bool flag = currentTime >= targetTime - range && currentTime <= targetTime;
+
+            return flag;
         }
     }
 }
