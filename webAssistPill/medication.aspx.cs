@@ -98,44 +98,7 @@ namespace webAssistPill
             string destinationFilePath = Path.Combine(destinationFolderPath, newFileName);
 
 
-            try
-            {
-                // Check if the source file exists before attempting to move it
-                if (File.Exists(sourceFilePath))
-                {
-                    // Check if the destination folder exists, create it if it doesn't
-                    if (!Directory.Exists(destinationFolderPath))
-                    {
-                        Directory.CreateDirectory(destinationFolderPath);
-                    }
-
-                    // Check if the destination file already exists
-                    while (File.Exists(destinationFilePath))
-                    {
-                        // Append another "removed" prefix to the file name to make it unique
-                        newFileName = "removed_" + newFileName;
-                        destinationFilePath = Path.Combine(destinationFolderPath, newFileName);
-                    }
-
-                    // Move the file to the destination folder with the new unique file name
-                    File.Move(sourceFilePath, destinationFilePath);
-
-                    // Optionally, you can also update your data or database records accordingly
-                    // e.g., UpdateImagePathInDatabase("your_image_file_name.jpg", newFileName);
-                }
-                else
-                {
-                    // Handle case when the source file does not exist
-                    // e.g., display an error message
-                    Response.Write("The source file does not exist.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions, such as file access errors
-                Response.Write("Error: " + ex.Message);
-            }
-
+            RemovePicture(destinationFilePath, newFileName, destinationFolderPath, sourceFilePath);
 
 
             medication.MedicationRemove();
@@ -283,29 +246,12 @@ namespace webAssistPill
                 {
                     try
                     {
-                        // Check content type of the uploaded file
-                        string contentType = postedFile.ContentType;
-                        if (!contentType.StartsWith("image/") || contentType == "image/webp")
-                        {
-                            string errorMessage = "Please upload a valid image file.";
-                            string script = $"showError('{errorMessage}');";
-                            ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
-                            return; // Exit the method
-                        }
-
-                        // Generate new filename and save uploaded file
-                        string originalFileName = Path.GetFileName(postedFile.FileName);
-                        string newFileName = $"{user.userIdgs}_{originalFileName}";
-
-                        string folderPath = Server.MapPath("~/images/medication_images/");
-                        if (!Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-                        postedFile.SaveAs(Path.Combine(folderPath, newFileName));
+                       string newFileName = AddPicture(postedFile, user); 
+                        if (newFileName.Equals(""))
+                            return;
 
                         // Create new MedicationBL object with uploaded file details
-                        new MedicationBL(medicationName, howToTake, description, quantity, newFileName, user.userIdgs);
+                        new MedicationBL(medicationName , description, howToTake, quantity, newFileName, user.userIdgs);
                         PopulateMedications();
                     }
                     catch (Exception ex)
@@ -333,6 +279,73 @@ namespace webAssistPill
             NewMedicationForm.Style["display"] = "none";
         }
 
+        //adding new picture and returning the new file name
+        private string AddPicture(HttpPostedFile postedFile, UserBL user)
+        {
+            // Check content type of the uploaded file
+            string contentType = postedFile.ContentType;
+            if (!contentType.StartsWith("image/") || contentType == "image/webp")
+            {
+                string errorMessage = "Please upload a valid image file.";
+                string script = $"showError('{errorMessage}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "ShowErrorScript", script, true);
+                return ""; // Exit the method
+            }
+
+            // Generate new filename and save uploaded file
+            string originalFileName = Path.GetFileName(postedFile.FileName);
+            string uniqueId = Guid.NewGuid().ToString(); // Generate unique identifier
+            string newFileName = $"{user.userIdgs}_{uniqueId}_{originalFileName}";
+
+            string folderPath = Server.MapPath("~/images/medication_images/");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            postedFile.SaveAs(Path.Combine(folderPath, newFileName));
+
+            return newFileName;
+        }
+
+        //removing the picture
+        private void RemovePicture(string destinationFilePath, string newFileName, string destinationFolderPath , string sourceFilePath)
+        {
+            try
+            {
+                // Check if the source file exists before attempting to move it
+                if (File.Exists(sourceFilePath))
+                {
+                    // Check if the destination folder exists, create it if it doesn't
+                    if (!Directory.Exists(destinationFolderPath))
+                    {
+                        Directory.CreateDirectory(destinationFolderPath);
+                    }
+
+                    // Check if the destination file already exists
+                    while (File.Exists(destinationFilePath))
+                    {
+                        // Append another "removed" prefix to the file name to make it unique
+                        newFileName = "removed_" + newFileName;
+                        destinationFilePath = Path.Combine(destinationFolderPath, newFileName);
+                    }
+
+                    // Move the file to the destination folder with the new unique file name
+                    File.Move(sourceFilePath, destinationFilePath);
+                }
+                else
+                {
+                    // Handle case when the source file does not exist
+                    // e.g., display an error message
+                    Response.Write("The source file does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, such as file access errors
+                Response.Write("Error: " + ex.Message);
+            }
+
+        }
         //exit from edit form
         protected void ExitButtonEditForm_Click(object sender, EventArgs e)
         {
