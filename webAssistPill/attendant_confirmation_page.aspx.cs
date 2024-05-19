@@ -35,15 +35,15 @@ namespace webAssistPill
                         {
                             //sending to all of the other attendants that this task has been claimed by him
                             string email = attendant.attendantEmailGS;
-                            AutomaticMessageSend.SendMessageIsClaimed(email, attendantEmail, date);
+                            AutomaticMessageSend.SendMessageIsClaimed(email, attendantEmail, date , user.userNamegs);
                         }
                     }
                 }
                 else if (confirmationType.Equals("medication"))
                 {
                     //stoping from sending any more emails to the other priority attedants because he took the task
-                    int takingdetaillogId = int.Parse(queryString["takingdetaillogId"]);
-                    TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(takingdetaillogId);
+                    int takingdetailId = int.Parse(queryString["takingdetailId"]);
+                    TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(takingdetailId);
                     takingDetailLogBL.TakingDetailLogStop();
                 }
 

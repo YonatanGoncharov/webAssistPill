@@ -36,7 +36,7 @@ namespace FinalProjectDAL
         /// <param name="storageReminderId"></param>
         public static void UpdateMSRtoSeen(int storageReminderId)
         {
-            string sSql = $@"UPDATE MedicationStorageReminderTBL SET MedicationStorageReminderTBL.IsSawStatus = {true} WHERE MedicationStorageReminderTBL.MedicationId = {storageReminderId}";
+            string sSql = $@"UPDATE MedicationStorageReminderTBL SET MedicationStorageReminderTBL.IsSawStatus = {true} WHERE MedicationStorageReminderTBL.StorageReminderId = {storageReminderId} AND MedicationStorageReminderTBL.[IsRemoved] = {false}";
             DBHelper.ExecuteNonQuery(sSql);
         }
         /// <summary>
@@ -46,7 +46,7 @@ namespace FinalProjectDAL
         /// <param name="sendingDate"></param>
         public static void InsertMSR(int userId, string sendingDate, bool isSaw)
         {
-            string gSql = $@"INSERT INTO MedicationTBL (UserId, SendingDate, IsSawStatus) VALUES ({userId},'{Convert.ToDateTime(sendingDate)}',{isSaw})";
+            string gSql = $@"INSERT INTO MedicationStorageReminderTBL (UserId, SendingDate, IsSawStatus) VALUES ({userId},'{Convert.ToDateTime(sendingDate)}',{isSaw})";
             DBHelper.ExecuteNonQuery(gSql);
         }
 
@@ -56,7 +56,7 @@ namespace FinalProjectDAL
         /// <param name="storageReminderId"></param>
         public static void RemoveMSR(int storageReminderId)
         {
-            string sSql = $@"UPDATE MedicationStorageReminderTBL SET MedicationStorageReminderTBL.IsRemoved = {true} WHERE MedicationStorageReminderTBL.MedicationId = {storageReminderId}";
+            string sSql = $@"UPDATE MedicationStorageReminderTBL SET MedicationStorageReminderTBL.IsRemoved = {true} WHERE MedicationStorageReminderTBL.StorageReminderId = {storageReminderId}";
             DBHelper.ExecuteNonQuery(sSql);
         }
     }

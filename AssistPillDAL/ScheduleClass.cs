@@ -48,7 +48,7 @@ namespace FinalProjectDAL
         /// <returns></returns>
         public static bool IsScheduleExists(int medicationId, int dayOfWeek, string takingTime, int userId)
         {
-            string sSql = $@"Select ScheduleId, (MedicationId) , (DayOfWeek) , (TakingTime) , (UserId) , (IsRemoved) from ScheduleTBL WHERE ScheduleTBL.MedicationId = {medicationId} AND ScheduleTBL.DayOfWeek = {dayOfWeek} AND ScheduleTBL.TakingTime = '{takingTime}' AND ScheduleTBL.UserId = {userId} AND ScheduleTBL.[IsRemoved] = {false};";
+            string sSql = $@"Select ScheduleId, (MedicationId) , (DayOfWeek) , (TakingTime) , (UserId) , (IsRemoved) from ScheduleTBL WHERE ScheduleTBL.MedicationId = {medicationId} AND ScheduleTBL.DayOfWeek = {dayOfWeek} AND ScheduleTBL.TakingTime = #{takingTime}# AND ScheduleTBL.UserId = {userId} AND ScheduleTBL.[IsRemoved] = {false};";
             DataTable dt = DBHelper.GetDataTable(sSql);
 
             return dt.Rows.Count > 0;

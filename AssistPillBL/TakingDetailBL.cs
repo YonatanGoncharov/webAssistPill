@@ -42,6 +42,7 @@ namespace AssistPillBL
             
             DataTable dt = TakingDetailClass.GetSpecifiecTakingDetail(scheduleId);
             DataRow dr = dt.Rows[0];
+            this.takingDetailId = (int)dr[0];
             this.takingDate = dr[2].ToString();
             this.isTookStatus = (bool)dr[3];
         }

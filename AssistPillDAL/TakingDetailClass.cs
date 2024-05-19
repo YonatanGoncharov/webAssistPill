@@ -10,14 +10,14 @@ namespace FinalProjectDAL
     public class TakingDetailClass
     {
         /// <summary>
-        /// getting specifiec taking detail by schedule id and taking date
+        /// getting specifiec taking detail by schedule id
         /// </summary>
         /// <param name="scheduleId"></param>
         /// <param name="takingDate"></param>
         /// <returns></returns>
         public static DataTable GetSpecifiecTakingDetail(int scheduleId)
         {
-            string sSql = $@"SELECT TakingDetailId, (ScheduleId) , (TakingDate) , (IsTookStatus)  from TakingDetailTBL WHERE TakingDetailTBL.[ScheduleId] = {scheduleId} AND TakingDetailTBL.[IsRemoved] = {false};";
+            string sSql = $@"SELECT TakingDetailId, (ScheduleId) , (TakingDate) , (IsTookStatus)  from TakingDetailTBL WHERE TakingDetailTBL.[ScheduleId] = {scheduleId} AND TakingDetailTBL.[IsTookStatus] = {false} AND TakingDetailTBL.[IsRemoved] = {false};";
             DataTable dt = DBHelper.GetDataTable(sSql);
             return dt;
         }
@@ -68,7 +68,7 @@ namespace FinalProjectDAL
         /// <param name="numberOfSent"></param>
         public static void UpdateLogTimes(int takingDetailId , int numberOfSent)
         {
-            string sSql = $@"UPDATE TakingDetailLogId SET NumberOfSent = {numberOfSent} WHERE TakingDetailLogTBL.TakingDetailId = {takingDetailId} AND TakingDetailLogTBL.IsRemoved = {false};";
+            string sSql = $@"UPDATE TakingDetailLogTBL SET NumberOfSent = {numberOfSent} WHERE TakingDetailLogTBL.TakingDetailId = {takingDetailId} AND TakingDetailLogTBL.IsRemoved = {false};";
             DBHelper.ExecuteNonQuery(sSql);
         }
         /// <summary>

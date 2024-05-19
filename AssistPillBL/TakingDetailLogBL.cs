@@ -24,6 +24,9 @@ namespace AssistPillBL
             this.takingDetailId = takingDetailId;
             this.numberOfSent = numberOfSent;
             TakingDetailClass.InsertTakingDetailLog(takingDetailId);
+            DataTable dt = TakingDetailClass.GetSpecifiecTakingDetailLog(takingDetailId);
+            DataRow dr = dt.Rows[0];
+            this.takingDetailLogId = (int)dr[0];
         }
         /// <summary>
         /// builder for exisiting log

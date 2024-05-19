@@ -27,22 +27,31 @@ namespace webAssistPill
                     // Assuming takingTimeGS is a string property
                     string takingTimeString = schedule.takingTimeGS;
 
-                    // Parse the string to a DateTime object
-                    if (DateTime.TryParse(takingTimeString, out DateTime takingTime))
+                    int day = schedule.dayOfTheWeekGS;
+
+                    // Get the day of the week
+                    DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
+                    int dayOfWeekNumber = (int)dayOfWeek;
+
+                    if (day == dayOfWeekNumber + 1)
                     {
-                        // Check if the current time is within 30 minutes of the scheduled time
-                        if (IsWithinTimeRange(takingTime, DateTime.Now, TimeSpan.FromMinutes(30)))
+                        // Parse the string to a DateTime object
+                        if (DateTime.TryParse(takingTimeString, out DateTime takingTime))
                         {
-                            // Send a reminder email
-                            
-                            new TakingDetailBL(schedule.scheduleIdGS, takingTimeString);
-                            SendReminderEmail(user.userEmailgs, takingTime, schedule.scheduleIdGS, user.userIdgs);
+                            // Check if the current time is within 30 minutes of the scheduled time
+                            if (IsWithinTimeRange(takingTime, DateTime.Now, TimeSpan.FromMinutes(30)))
+                            {
+                                // Send a reminder email
+
+                                new TakingDetailBL(schedule.scheduleIdGS, takingTimeString);
+                                SendReminderEmail(user.userEmailgs, takingTime, schedule.scheduleIdGS, user.userIdgs);
+                            }
                         }
-                    }
-                    else
-                    {
-                        // Handle parsing error
-                        Console.WriteLine($"Error parsing takingTimeGS for user {user.userEmailgs}");
+                        else
+                        {
+                            // Handle parsing error
+                            Console.WriteLine($"Error parsing takingTimeGS for user {user.userEmailgs}");
+                        }
                     }
                 }
             }
@@ -72,7 +81,7 @@ namespace webAssistPill
                 }
                 if (!goneMedications.Equals("")) //checking if the user has medication that are gone
                 {
-                    new MedicationStorageBL(user.userIdgs, DateTime.Now.ToString("yyyy-MM-dd")); //making new event for medication storage that is gone
+                    new MedicationStorageBL(user.userIdgs, DateTime.Now.ToString("yyyy-MM-dd") , false); //making new event for medication storage that is gone
                     List<AttendantBL> attendants = user.GetAttendants();
                     foreach (AttendantBL attendant in attendants) //sending medication stock reminder for all of the attendatns of the user
                     {
@@ -92,9 +101,6 @@ namespace webAssistPill
             {
                 foreach (ScheduleBL schedule in user.GetSchedule())
                 {
-                    // Assuming takingTimeGS is a string property
-                    string takingTimeString = schedule.takingTimeGS;
-
                     try
                     {
                         TakingDetailBL td = new TakingDetailBL(schedule.scheduleIdGS);
@@ -113,7 +119,7 @@ namespace webAssistPill
                             DateTime currentTime = DateTime.Now;
 
                             // Check if the current time is later than takingDateTime
-                            if (currentTime > takingDateTime)
+                            if (currentTime > takingDateTime && !td.IsTookStatus)
                             {
                                 List<AttendantBL> attendantBLs = user.GetAttendants();
                                 // Create a list to store tuples containing attendantIdGS and priority
@@ -134,7 +140,17 @@ namespace webAssistPill
 
                                 // Extract only the attendantIdGS into a list
                                 List<int> sortedAttendantIds = attendantInfo.Select(attendant => attendant.attendantId).ToList();
-                                TakingDetailLogBL takingDetailLogBL = new TakingDetailLogBL(td.TakingDetailId);
+                                TakingDetailLogBL takingDetailLogBL;
+                                try
+                                {
+                                    takingDetailLogBL = new TakingDetailLogBL(td.TakingDetailId);
+                                }
+                                catch (Exception ex)
+                                {
+                                    //the TakingDetailLogBL still does not exists so we make one
+                                    takingDetailLogBL = new TakingDetailLogBL(td.TakingDetailId, 0);
+                                }
+
                                 //getting the first selected attendants in the user priority
                                 //checking if the count of the sent is already bigger then the amount of the attendats
                                 int chosenAttendant;
@@ -148,13 +164,13 @@ namespace webAssistPill
                                     chosenAttendant = sortedAttendantIds[takingDetailLogBL.NumberOfSent];
                                     takingDetailLogBL.ChangeNumberOfSent();
                                 }
-                                
+
                                 // Find the AttendantBL object with the chosenAttendant ID
 
                                 AttendantBL chosenAttendantBL = attendantBLs.Find(attendant => attendant.attendantIdGS == chosenAttendant);
 
 
-                                SendAttendantMedicationReminderEmail(chosenAttendantBL.attendantEmailGS, takingDate, takingDetailLogBL.TakingDetailLogId , user.userNamegs);
+                                SendAttendantMedicationReminderEmail(chosenAttendantBL.attendantEmailGS, takingDateTime, takingDetailLogBL.TakingDetailId, user.userNamegs);
                             }
                         }
                     }
@@ -171,14 +187,14 @@ namespace webAssistPill
         /// <param name="attendantEmail"></param>
         /// <param name="claimerEmail"></param>
         /// <param name="date"></param>
-        public static void SendMessageIsClaimed(string attendantEmail, string claimerEmail, string date)
+        public static void SendMessageIsClaimed(string attendantEmail, string claimerEmail, string date , string userName)
         {
             string recipientEmail = attendantEmail;
             string senderEmail = "assistpillwebservice@gmail.com";
             string senderPassword = "zecq zbvq jocp hgwi";
             MailMessage message = new MailMessage("your_email@example.com", attendantEmail);
             message.Subject = "Medication Reminder";
-            message.Body = $"The medication stock duty for {date} has been taken by {claimerEmail}, there is no need to buy yourself.";
+            message.Body = $"The medication stock duty for {date} of the patient {userName} has been taken by {claimerEmail}, there is no need to buy yourself.";
             EmailSend(senderEmail, recipientEmail, senderPassword, message);
         }
         /// <summary>
@@ -229,7 +245,7 @@ namespace webAssistPill
         /// <param name="takingTime"></param>
         /// <param name="takingdetaillogId"></param>
         /// <param name="name"></param>
-        private static void SendAttendantMedicationReminderEmail(string attendantEmail, DateTime takingTime, int takingdetaillogId , string name)
+        private static void SendAttendantMedicationReminderEmail(string attendantEmail, DateTime takingTime, int takingdetailId, string name)
         {
             string resetToken = Guid.NewGuid().ToString();//making a token for uniuqe site
             string recipientEmail = attendantEmail;
@@ -237,8 +253,8 @@ namespace webAssistPill
             string senderPassword = "zecq zbvq jocp hgwi";
             MailMessage message = new MailMessage("your_email@example.com", attendantEmail);
             message.Subject = "Medication Reminder";
-            message.Body = $"Your patient {name} has missed his medicine at {takingTime.ToString("HH:mm")}. Please remind him now! if you did'nt see this after a time this will pass to the next attendant of the patient. \n" +
-                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/attendant_confirmation_page.aspx?&type=medication&takingdetaillogId={takingdetaillogId}&token={resetToken}";
+            message.Body = $"Your patient {name} has missed his medicine at {takingTime.ToString("HH:mm")}. Please remind him now! if you didn't see this after a time this will pass to the next attendant of the patient. \n" +
+                $"If you saw this email please confirm by clicking on this link: http://localhost:51422/attendant_confirmation_page.aspx?&type=medication&takingdetailId={takingdetailId}&token={resetToken}";
             EmailSend(senderEmail, recipientEmail, senderPassword, message);
         }
         /// <summary>
@@ -301,9 +317,19 @@ namespace webAssistPill
         /// <returns></returns>
         private static bool IsWithinTimeRange(DateTime targetTime, DateTime currentTime, TimeSpan range)
         {
-            bool flag = currentTime >= targetTime - range && currentTime <= targetTime;
+            DateTime normalizedCurrentTime = NormalizeTime(currentTime);
+            DateTime normalizedTargetTime = NormalizeTime(targetTime);
 
+            DateTime lowerBound = normalizedTargetTime.Subtract(range);
+
+            bool flag = normalizedCurrentTime >= lowerBound && normalizedCurrentTime <= normalizedTargetTime;
             return flag;
+
+        }
+        // This helper method sets the date part of a DateTime object to 0001-01-01, keeping only the time component.
+        private static DateTime NormalizeTime(DateTime dateTime)
+        {
+            return new DateTime(1, 1, 1, dateTime.Hour, dateTime.Minute, dateTime.Second);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using AssistPillBL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace webAssistPill
 {
@@ -15,15 +11,15 @@ namespace webAssistPill
             //getting and and veribles from the url
             string thisUrl = Request.Url.AbsoluteUri;
             System.Collections.Specialized.NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(new Uri(thisUrl).Query);
-            try 
+            try
             {
-                int scheduleId = int.Parse(queryString["scheduleId"]);
+                string currentDate = DateTime.Now.ToString("HH:mm");
+                int scheduleId = int.Parse(queryString["schedule"]);
                 int userId = int.Parse(queryString["userId"]);
                 string confirmationType = queryString["type"];
-                string takingDate = queryString["takingDate"];
                 if (confirmationType.Equals("medication")) //checking if this is medication taking
                 {
-                    TakingDetailBL takingDetailBL = new TakingDetailBL(scheduleId, takingDate); //making that the he took the medication in database
+                    TakingDetailBL takingDetailBL = new TakingDetailBL(scheduleId); //making that the he took the medication in database
                     if (!takingDetailBL.IsTookStatus)
                     {
                         takingDetailBL.NewTaking();
@@ -33,7 +29,7 @@ namespace webAssistPill
                         {
                             //sending message to all attendants that he took the medication
                             ScheduleBL schedule = new ScheduleBL(scheduleId);
-                            new MessageBL(userId, attendant.attendantIdGS, takingDate, $"{user.userNamegs} Has took the medication {schedule.medicationNameGS} in {takingDate}", false);
+                            new MessageBL(userId, attendant.attendantIdGS, currentDate, $"{user.userNamegs} Has took the medication {schedule.medicationNameGS} in {currentDate}", false);
                         }
                     }
                 }
@@ -43,7 +39,7 @@ namespace webAssistPill
                 //incase testing
             }
 
-           
+
         }
     }
 }

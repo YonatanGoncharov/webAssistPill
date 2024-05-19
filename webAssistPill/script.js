@@ -36,30 +36,6 @@ function closeErrorPopup() {
     errorPopup.style.display = "none"; // Hide the error popup
 }
 
-// Function to validate the medication form
-function validateMedicationForm() {
-    const medicationName = document.getElementById("medication-name-add").value; // Get the medication name input value
-    const howToTake = document.getElementById("medication-how-to-take-add").value; // Get the how to take input value
-    const quantity = parseInt(document.getElementById("medication-quantity-add").value); // Get the quantity input value
-
-    // Validation checks
-    if (medicationName.length < 4) { // Check if medication name is too short
-        showError("Medication name must be at least 4 characters."); // Show error message
-        return false; // Validation failed
-    }
-
-    if (howToTake.length < 1) { // Check if how to take field is empty
-        showError("How to take field cannot be empty."); // Show error message
-        return false; // Validation failed
-    }
-
-    if (quantity <= 0 || isNaN(quantity)) { // Check if quantity is not a positive number
-        showError("Quantity must be a positive number."); // Show error message
-        return false; // Validation failed
-    }
-
-    return true; // All validations passed
-}
 
 // Function to handle form submission after validation
 function addMedicationFormValidation() {
